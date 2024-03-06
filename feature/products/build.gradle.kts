@@ -30,12 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(project(":core:presentation"))
 
-    implementation(libs.core.ktx)
     implementation(libs.appcompat)
+    implementation(libs.core.ktx)
+    implementation(libs.koin)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

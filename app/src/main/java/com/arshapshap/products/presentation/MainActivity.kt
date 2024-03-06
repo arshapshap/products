@@ -1,13 +1,11 @@
 package com.arshapshap.products.presentation
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.arshapshap.products.R
+import com.arshapshap.products.core.presentation.BaseActivity
+import com.arshapshap.products.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    ActivityMainBinding::inflate
+) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+    override fun initViews() { }
 }

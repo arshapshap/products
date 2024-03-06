@@ -34,9 +34,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(project(":core:presentation"))
     implementation(project(":feature:products"))
 
     implementation(libs.appcompat)
