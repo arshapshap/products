@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.arshapshap.products.feature.products"
+    namespace = "com.arshapshap.products.core.network"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -30,23 +30,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:presentation"))
-    implementation(project(":core:network"))
 
-    implementation(libs.appcompat)
-    implementation(libs.coil)
-    implementation(libs.core.ktx)
-    implementation(libs.flexbox)
     implementation(libs.koin)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+
+    api(libs.retrofit.core)
+    api(libs.retrofit.kotlin.serialization)
+    api(libs.kotlinx.serialization.json)
 }

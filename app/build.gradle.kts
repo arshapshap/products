@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:presentation"))
+    implementation(project(":core:network"))
     implementation(project(":feature:products"))
 
     implementation(libs.appcompat)
