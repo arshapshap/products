@@ -1,21 +1,17 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
 }
 
 android {
-    namespace = "com.arshapshap.products"
+    namespace = "com.arshapshap.products.feature.products"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.arshapshap.products"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -37,14 +33,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:products"))
 
-    implementation(libs.appcompat)
-    implementation(libs.constraintlayout)
     implementation(libs.core.ktx)
-    implementation(libs.koin)
+    implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.bundles.navigation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

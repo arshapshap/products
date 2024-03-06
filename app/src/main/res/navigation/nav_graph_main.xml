@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/productsFragment"
-        android:name="com.arshapshap.products.presentation.ProductsFragment"
+        android:name="com.arshapshap.products.feature.products.presentation.screen.productslist.ProductsListFragment"
         android:label="ProductsFragment"
-        tools:layout="@layout/fragment_products" />
+        tools:layout="@layout/fragment_products_list" />
 </navigation>
