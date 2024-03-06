@@ -42,11 +42,12 @@ dependencies {
     implementation(project(":core:network"))
 
     implementation(libs.appcompat)
-    implementation(libs.coil)
     implementation(libs.core.ktx)
     implementation(libs.flexbox)
+    implementation(libs.glide)
     implementation(libs.koin)
     implementation(libs.material)
+    implementation(libs.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

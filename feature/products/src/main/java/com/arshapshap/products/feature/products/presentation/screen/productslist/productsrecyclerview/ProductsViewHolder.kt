@@ -1,15 +1,16 @@
 package com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview
 
 import android.graphics.Paint
-import androidx.core.view.isGone
+import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.ItemProductBinding
 import com.arshapshap.products.feature.products.domain.model.Product
+import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.util.Locale
+
 
 internal class ProductsViewHolder(
     private val binding: ItemProductBinding,
@@ -21,7 +22,10 @@ internal class ProductsViewHolder(
 
     fun onBind(product: Product) {
         with (binding) {
-            thumbnailImageView.load(product.thumbnailUrl)
+            Glide.with(root.context)
+                .load(product.thumbnailUrl)
+                .placeholder(ColorDrawable(MaterialColors.getColor(root, com.google.android.material.R.attr.backgroundColor)))
+                .into(thumbnailImageView)
 
             ratingTag.text = resources.getString(R.string.rating, product.rating.toString())
             categoryTag.text = product.category.capitalize()

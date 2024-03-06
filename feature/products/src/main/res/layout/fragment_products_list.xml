@@ -1,17 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:theme="@style/Theme.Products">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/products_recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_product" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/products_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_product"
+            tools:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/error_linear_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/error_image_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:tint="?attr/colorPrimary"
+                tools:src="@drawable/ic_forklift" />
+
+            <TextView
+                android:id="@+id/error_headline_text_view"
+                style="@style/Products.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.9"
+                android:gravity="center"
+                android:text="@string/carrying_goods"
+                android:textColor="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/error_hint_text_view"
+                style="@style/Products.TextAppearance.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="@string/don_t_worry_new_products_will_be_available_soon"
+                android:textColor="?attr/colorPrimary" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

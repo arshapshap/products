@@ -5,4 +5,10 @@
     <string name="price_in_dollars">%s $</string>
     <string name="discount">-%s%%</string>
     <string name="rating">%s Rating</string>
+    <string name="something_broke_on_the_server">Something broke on the server…</string>
+    <string name="don_t_worry_the_problem_will_be_solved_soon">Don\'t worry, the problem will be solved soon</string>
+    <string name="check_your_connection_and_try_again">Check your connection and try again</string>
+    <string name="no_contact">No contact!</string>
+    <string name="don_t_worry_new_products_will_be_available_soon">Don\'t worry, new products will be available soon</string>
+    <string name="carrying_goods">Сarrying goods…</string>
 </resources>
