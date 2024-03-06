@@ -1,5 +1,6 @@
 package com.arshapshap.products.core.network.di
 
+import com.arshapshap.products.core.network.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -19,7 +20,7 @@ val coreNetworkModule = module {
             .build()
     }
 
-    single<Retrofit> { (baseUrl: String) ->
+    single<Retrofit> {
         val contentType = "application/json".toMediaType()
         val json = Json {
             ignoreUnknownKeys = true
@@ -27,7 +28,7 @@ val coreNetworkModule = module {
         Retrofit.Builder()
             .addConverterFactory(json.asConverterFactory(contentType))
             .client(get<OkHttpClient>())
-            .baseUrl(baseUrl)
+            .baseUrl(BuildConfig.BASE_URL)
             .build()
     }
 }

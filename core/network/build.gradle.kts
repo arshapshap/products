@@ -10,6 +10,8 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
 
+        buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -22,6 +24,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

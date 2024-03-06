@@ -45,6 +45,7 @@ retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "re
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [bundles]
 navigation = ["navigation-runtime-ktx", "navigation-fragment-ktx", "navigation-ui-ktx"]
