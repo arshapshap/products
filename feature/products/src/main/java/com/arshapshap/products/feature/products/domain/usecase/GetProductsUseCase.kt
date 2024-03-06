@@ -9,7 +9,7 @@ class GetProductsUseCase(
     private val repository: ProductRepository
 ) {
 
-    suspend operator fun invoke(page: Int): List<Product> {
+    suspend operator fun invoke(page: Int = 0): List<Product> {
         return repository.getProducts(page * pageSize, pageSize)
     }
 }

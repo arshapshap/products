@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.arshapshap.products.feature.products"
+    namespace = "com.arshapshap.products.core.designsystem"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -30,20 +30,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:presentation"))
 
-    implementation(libs.appcompat)
-    implementation(libs.coil)
     implementation(libs.core.ktx)
-    implementation(libs.flexbox)
-    implementation(libs.koin)
+    implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

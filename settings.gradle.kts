@@ -18,3 +18,4 @@ rootProject.name = "Products"
 include(":app")
 include(":feature:products")
 include(":core:presentation")
+include(":core:designsystem")

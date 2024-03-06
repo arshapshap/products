@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="products">Products</string>
+    <string name="details">Details</string>
+    <string name="price_in_dollars">%s $</string>
+    <string name="discount">-%s%%</string>
+    <string name="rating">%s Rating</string>
+</resources>

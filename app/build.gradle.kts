@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:designsystem"))
     implementation(project(":core:presentation"))
     implementation(project(":feature:products"))
 

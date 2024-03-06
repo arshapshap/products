@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.arshapshap.products.feature.products.presentation.screen.productslist.ProductsListFragment"
-        android:label="ProductsFragment"
+        android:label="@string/products"
         tools:layout="@layout/fragment_products_list" />
 </navigation>

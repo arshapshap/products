@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base style -->
+    <style name="Products" />
+
+    <!-- Toolbar -->
+    <style name="Products.Toolbar">
+        <item name="android:background">@color/white</item>
+        <item name="titleCentered">true</item>
+        <item name="titleTextAppearance">@style/Products.TextAppearance.Headline</item>
+        <item name="titleTextColor">@color/black</item>
+    </style>
+
+    <!-- Text -->
+    <style name="Products.TextAppearance.Large" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_extra_large</item>
+        <item name="android:textFontWeight" tools:targetApi="p">600</item>
+    </style>
+
+    <style name="Products.TextAppearance.Headline" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body1" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body1.Medium">
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body2" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body2.Medium">
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body3" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_extra_small</item>
+        <item name="android:textFontWeight" tools:targetApi="p">400</item>
+    </style>
+
+    <style name="Products.TextAppearance.Body3.Medium">
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+    </style>
+
+    <style name="Products.TextAppearance.Zero" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">0sp</item>
+    </style>
+
+    <!-- TagView -->
+    <style name="Products.TagView" />
+
+    <style name="Products.TagView.Rating">
+        <item name="drawableStart">@drawable/ic_star</item>
+        <item name="contentColor">@color/orange700</item>
+        <item name="shapeColor">@color/orange100</item>
+    </style>
+
+    <style name="Products.TagView.Primary">
+        <item name="contentColor">@color/purple700</item>
+        <item name="shapeColor">@color/purple100</item>
+    </style>
+
+    <style name="Products.TagView.Caption">
+        <item name="contentColor">@color/grey500</item>
+        <item name="shapeColor">@color/grey200</item>
+    </style>
+
+    <!-- Buttons -->
+    <style name="Products.Button">
+        <item name="android:paddingVertical">@dimen/button_default_vertical_padding</item>
+        <item name="cornerRadius">@dimen/normal_corner_radius</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <!-- TextInputs -->
+    <style name="Products.TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/grey400</item>
+        <item name="boxBackgroundColor">@color/grey200</item>
+        <item name="hintTextAppearance">@style/Products.TextAppearance.Body3</item>
+        <item name="boxCornerRadiusTopStart">@dimen/medium_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/medium_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/medium_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/medium_corner_radius</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="errorTextAppearance">@style/Products.TextAppearance.Zero</item>
+    </style>
+    <style name="Products.TextInputEditText" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/grey400</item>
+        <item name="boxBackgroundColor">@color/grey200</item>
+        <item name="hintTextAppearance">@style/Products.TextAppearance.Body3</item>
+    </style>
+</resources>

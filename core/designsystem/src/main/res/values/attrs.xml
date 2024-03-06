@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TagView">
+        <attr name="drawableStart" format="reference" />
+        <attr name="drawableEnd" format="reference" />
+        <attr name="text" format="string" />
+        <attr name="contentColor" format="color" />
+        <attr name="shapeColor" format="color" />
+    </declare-styleable>
+</resources>
