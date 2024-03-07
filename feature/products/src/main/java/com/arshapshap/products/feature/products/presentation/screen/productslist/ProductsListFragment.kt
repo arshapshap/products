@@ -33,6 +33,9 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
             productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
                 scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
+
+                if (!productsRecyclerView.canScrollVertically(1) && viewModel.canLoadMore.value == true)
+                    viewModel.loadMore()
             }
 
             swipeRefreshLayout.setOnRefreshListener {
@@ -64,10 +67,10 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         }
 
         viewModel.loadingMoreItems.observe(viewLifecycleOwner) {
-            getProductsAdapter().setLoadMoreButton(visible = viewModel.showLoadMoreButton.value ?: false, isLoading = it)
+            getProductsAdapter().setLoadMoreButton(visible = viewModel.canLoadMore.value ?: false, isLoading = it)
         }
 
-        viewModel.showLoadMoreButton.observe(viewLifecycleOwner) {
+        viewModel.canLoadMore.observe(viewLifecycleOwner) {
             getProductsAdapter().setLoadMoreButton(visible = it)
         }
 

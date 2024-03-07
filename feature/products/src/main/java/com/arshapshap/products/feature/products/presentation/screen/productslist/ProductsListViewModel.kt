@@ -1,6 +1,5 @@
 package com.arshapshap.products.feature.products.presentation.screen.productslist
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -28,8 +27,8 @@ class ProductsListViewModel(
     private val _loadingMoreItems = MutableLiveData(false)
     internal val loadingMoreItems: LiveData<Boolean> = _loadingMoreItems
 
-    private val _showLoadMoreButton = MutableLiveData(false)
-    internal val showLoadMoreButton: LiveData<Boolean> = _showLoadMoreButton
+    private val _canLoadMore = MutableLiveData(false)
+    internal val canLoadMore: LiveData<Boolean> = _canLoadMore
 
     private val _categoryFilter = MutableLiveData<Category?>()
     internal val categoryFilter: LiveData<Category?> = _categoryFilter
@@ -44,7 +43,7 @@ class ProductsListViewModel(
         _currentPage = 0
         _error.postValue(null)
         _mainLoading.postValue(true)
-        _showLoadMoreButton.postValue(false)
+        _canLoadMore.postValue(false)
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -56,11 +55,10 @@ class ProductsListViewModel(
 
                 if (productsList.list.isEmpty())
                     _error.postValue(ProductsListEvent.ShowEmptyListError)
-                _showLoadMoreButton.postValue(productsList.canLoadMore)
+                _canLoadMore.postValue(productsList.canLoadMore)
             } catch (e: UnknownHostException) {
                 _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = false))
             } catch (e: Exception) {
-                Log.e("VIEWMODEL", e.message ?: "")
                 _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = false))
             } finally {
                 _mainLoading.postValue(false)
@@ -87,15 +85,15 @@ class ProductsListViewModel(
     internal fun loadMore() {
         _loadingMoreItems.postValue(true)
 
-        _currentPage += 1
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val productsList = categoryFilter.value?.let {
-                    getProductsByCategoryUseCase(it, _currentPage)
-                } ?: getProductsUseCase(_currentPage)
+                    getProductsByCategoryUseCase(it, _currentPage + 1)
+                } ?: getProductsUseCase(_currentPage + 1)
                 _products.postValue((products.value ?: listOf()) + productsList.list)
 
-                _showLoadMoreButton.postValue(productsList.canLoadMore)
+                _currentPage += 1
+                _canLoadMore.postValue(productsList.canLoadMore)
             } catch (e: UnknownHostException) {
                 _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = true))
             } catch (e: Exception) {
