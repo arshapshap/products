@@ -8,14 +8,17 @@ import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListEvent
+import com.arshapshap.products.feature.products.presentation.FeatureProductsRouter
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class ProductsListViewModel(
+class ProductsListViewModel internal constructor(
     private val getProductsUseCase: GetProductsUseCase,
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
+    private val router: FeatureProductsRouter
 ) : BaseViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
@@ -33,8 +36,8 @@ class ProductsListViewModel(
     private val _categoryFilter = MutableLiveData<Category?>()
     internal val categoryFilter: LiveData<Category?> = _categoryFilter
 
-    private val _error = MutableLiveData<ProductsListEvent?>()
-    internal val error: LiveData<ProductsListEvent?> = _error
+    private val _error = MutableLiveData<ProductsListError?>()
+    internal val error: LiveData<ProductsListError?> = _error
 
     private var _currentPage = 0
 
@@ -55,12 +58,12 @@ class ProductsListViewModel(
                 _products.postValue(productsList.list)
 
                 if (productsList.list.isEmpty())
-                    _error.postValue(ProductsListEvent.ShowEmptyListError)
+                    _error.postValue(EmptyListError)
                 _canLoadMore = productsList.canLoadMore
             } catch (e: UnknownHostException) {
-                _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = false))
+                _error.postValue(NoConnectionError(showDialog = false))
             } catch (e: Exception) {
-                _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = false))
+                _error.postValue(UnknownError(showDialog = false))
             } finally {
                 _loadingMoreItems.postValue(false)
                 _mainLoading.postValue(false)
@@ -69,7 +72,7 @@ class ProductsListViewModel(
     }
 
     internal fun openDetails(productId: Int) {
-        // router.openDetails(productId)
+        router.openProductDetails(productId)
     }
 
     internal fun setCategoryFilter(category: Category) {
@@ -97,9 +100,9 @@ class ProductsListViewModel(
                 _currentPage += 1
                 _canLoadMore = productsList.canLoadMore
             } catch (e: UnknownHostException) {
-                _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = true))
+                _error.postValue(NoConnectionError(showDialog = true))
             } catch (e: Exception) {
-                _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = true))
+                _error.postValue(UnknownError(showDialog = true))
             } finally {
                 _loadingMoreItems.postValue(false)
             }

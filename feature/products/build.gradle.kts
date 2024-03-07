@@ -40,11 +40,11 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:presentation"))
     implementation(project(":core:network"))
+    implementation(project(":core:utils"))
 
     implementation(libs.appcompat)
+    implementation(libs.coil)
     implementation(libs.core.ktx)
-    implementation(libs.flexbox)
-    implementation(libs.glide)
     implementation(libs.koin)
     implementation(libs.material)
     implementation(libs.swiperefreshlayout)

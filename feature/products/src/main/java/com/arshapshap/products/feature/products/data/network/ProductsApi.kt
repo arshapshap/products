@@ -13,7 +13,7 @@ internal interface ProductsApi {
     suspend fun getProducts(@Query("skip") skip: Int, @Query("limit") limit: Int): ProductsListRemote
 
     @GET("products/{id}")
-    suspend fun getProductById(@Path("path_variable") id: Int): ProductRemote?
+    suspend fun getProductById(@Path("id") id: Int): ProductRemote?
 
     @GET("products/search")
     suspend fun getProductsBySearchQuery(@Query("q") query: String): ProductsListRemote

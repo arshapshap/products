@@ -3,16 +3,16 @@ package com.arshapshap.products.feature.products.presentation.screen.productslis
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.ItemProductBinding
 import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
-import com.bumptech.glide.Glide
+import com.arshapshap.utils.toStringWithSpaces
 import com.google.android.material.color.MaterialColors
-import java.text.DecimalFormat
 
 
-internal class ProductsViewHolder(
+internal class ProductViewHolder(
     private val binding: ItemProductBinding,
     private val onOpenDetails: (Int) -> Unit,
     private val onCategoryClick: (Category) -> Unit
@@ -23,10 +23,9 @@ internal class ProductsViewHolder(
 
     fun onBind(product: Product) {
         with (binding) {
-            Glide.with(root.context)
-                .load(product.thumbnailUrl)
-                .placeholder(ColorDrawable(MaterialColors.getColor(root, com.google.android.material.R.attr.backgroundColor)))
-                .into(thumbnailImageView)
+            thumbnailImageView.load(product.thumbnailUrl) {
+                placeholder(ColorDrawable(MaterialColors.getColor(root, com.google.android.material.R.attr.backgroundColor)))
+            }
 
             ratingTag.text = resources.getString(R.string.rating, product.rating.toString())
             categoryTag.text = product.category.name
@@ -51,9 +50,5 @@ internal class ProductsViewHolder(
                 onCategoryClick.invoke(product.category)
             }
         }
-    }
-
-    private fun Int.toStringWithSpaces(): String {
-        return DecimalFormat("###,###").format(this).replace(',', ' ')
     }
 }

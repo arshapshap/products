@@ -11,7 +11,7 @@ import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder.CategoryFilterViewHolder
 import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder.LoadMoreButtonViewHolder
-import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder.ProductsViewHolder
+import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder.ProductViewHolder
 import java.lang.IllegalArgumentException
 
 private const val VIEW_TYPE_PRODUCT = 0
@@ -75,7 +75,7 @@ internal class ProductsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        VIEW_TYPE_PRODUCT -> ProductsViewHolder(getItemProductBinding(parent), onOpenDetails, onCategoryClick)
+        VIEW_TYPE_PRODUCT -> ProductViewHolder(getItemProductBinding(parent), onOpenDetails, onCategoryClick)
         VIEW_TYPE_LOAD_MORE_BUTTON -> LoadMoreButtonViewHolder(getLoadMoreButtonBinding(parent), onLoadMore)
         VIEW_TYPE_FILTER_INFO -> CategoryFilterViewHolder(getFilterInfoBinding(parent), onCategoryFilterClick)
         else -> throw IllegalArgumentException("Unsupported view type")
@@ -84,7 +84,7 @@ internal class ProductsAdapter(
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (holder) {
-        is ProductsViewHolder -> holder.onBind((list[position] as RecyclerViewItem.ProductItem).product)
+        is ProductViewHolder -> holder.onBind((list[position] as RecyclerViewItem.ProductItem).product)
         is LoadMoreButtonViewHolder -> holder.onBind(list[position] as RecyclerViewItem.LoadMoreButtonItem)
         is CategoryFilterViewHolder -> holder.onBind(list[position] as RecyclerViewItem.CategoryFilterItem)
         else -> throw IllegalArgumentException("Unsupported ViewHolder class")

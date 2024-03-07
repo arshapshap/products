@@ -13,7 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:tint="?attr/colorPrimary"
-        tools:src="@drawable/ic_forklift" />
+        tools:src="@drawable/ic_mistery" />
 
     <TextView
         android:id="@+id/error_headline_text_view"
@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:alpha="0.9"
         android:gravity="center"
-        android:text="@string/carrying_goods"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        tools:text="@string/something_weird" />
 
     <TextView
         android:id="@+id/error_hint_text_view"
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:alpha="0.5"
         android:gravity="center"
-        android:text="@string/don_t_worry_new_products_will_be_available_soon"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        tools:text="@string/the_product_was_not_found_an_error_may_have_occurred" />
 </LinearLayout>

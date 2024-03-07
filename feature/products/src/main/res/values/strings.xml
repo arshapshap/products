@@ -14,4 +14,8 @@
     <string name="load_more">Load more</string>
     <string name="ok">OK</string>
     <string name="filter">Filter:</string>
+    <string name="stock">%s Stock</string>
+    <string name="something_weird">Something weird…</string>
+    <string name="the_product_was_not_found_an_error_may_have_occurred">The product was not found</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>

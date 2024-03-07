@@ -11,8 +11,8 @@ import androidx.core.view.isGone
 import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.FragmentProductsListBinding
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListEvent
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListEvent.ShowNoConnectionError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.NoConnectionError
 import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.ProductsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -73,7 +73,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         }
     }
 
-    private fun showError(error: ProductsListEvent) {
+    private fun showError(error: ProductsListError) {
         val (drawable, headline, hint) = getErrorData(error)
 
         if (shouldShowDialog(error))
@@ -87,9 +87,9 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             }
     }
 
-    private fun shouldShowDialog(error: ProductsListEvent): Boolean =
-        error is ShowNoConnectionError && error.showDialog
-                || error is ProductsListEvent.ShowUnknownError && error.showDialog
+    private fun shouldShowDialog(error: ProductsListError): Boolean =
+        error is NoConnectionError && error.showDialog
+                || error is ProductsListError.UnknownError && error.showDialog
 
     private fun showDialogWithError(
         drawable: Drawable?,
@@ -118,21 +118,21 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         dialog.show()
     }
 
-    private fun getErrorData(error: ProductsListEvent): Triple<Drawable?, String, String> {
+    private fun getErrorData(error: ProductsListError): Triple<Drawable?, String, String> {
         val drawableId = when (error) {
-            is ShowNoConnectionError -> R.drawable.ic_satellite
-            is ProductsListEvent.ShowUnknownError -> R.drawable.ic_bug
-            ProductsListEvent.ShowEmptyListError -> R.drawable.ic_forklift
+            is NoConnectionError -> R.drawable.ic_satellite
+            is ProductsListError.UnknownError -> R.drawable.ic_bug
+            ProductsListError.EmptyListError -> R.drawable.ic_forklift
         }
         val headlineStringId = when (error) {
-            is ShowNoConnectionError -> R.string.no_contact
-            is ProductsListEvent.ShowUnknownError -> R.string.something_broke_on_the_server
-            ProductsListEvent.ShowEmptyListError -> R.string.carrying_goods
+            is NoConnectionError -> R.string.no_contact
+            is ProductsListError.UnknownError -> R.string.something_broke_on_the_server
+            ProductsListError.EmptyListError -> R.string.carrying_goods
         }
         val hintStringId = when (error) {
-            is ShowNoConnectionError -> R.string.check_your_connection_and_try_again
-            is ProductsListEvent.ShowUnknownError -> R.string.don_t_worry_the_problem_will_be_solved_soon
-            ProductsListEvent.ShowEmptyListError -> R.string.don_t_worry_new_products_will_be_available_soon
+            is NoConnectionError -> R.string.check_your_connection_and_try_again
+            is ProductsListError.UnknownError -> R.string.don_t_worry_the_problem_will_be_solved_soon
+            ProductsListError.EmptyListError -> R.string.don_t_worry_new_products_will_be_available_soon
         }
 
         val drawable = ResourcesCompat.getDrawable(resources, drawableId, requireContext().theme)
