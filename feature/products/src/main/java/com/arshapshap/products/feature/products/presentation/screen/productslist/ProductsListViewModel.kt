@@ -27,8 +27,8 @@ class ProductsListViewModel(
     private val _loadingMoreItems = MutableLiveData(false)
     internal val loadingMoreItems: LiveData<Boolean> = _loadingMoreItems
 
-    private val _canLoadMore = MutableLiveData(false)
-    internal val canLoadMore: LiveData<Boolean> = _canLoadMore
+    private var _canLoadMore = false
+    internal val canLoadMore get() = _canLoadMore
 
     private val _categoryFilter = MutableLiveData<Category?>()
     internal val categoryFilter: LiveData<Category?> = _categoryFilter
@@ -43,7 +43,7 @@ class ProductsListViewModel(
         _currentPage = 0
         _error.postValue(null)
         _mainLoading.postValue(true)
-        _canLoadMore.postValue(false)
+        _canLoadMore = false
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -55,12 +55,13 @@ class ProductsListViewModel(
 
                 if (productsList.list.isEmpty())
                     _error.postValue(ProductsListEvent.ShowEmptyListError)
-                _canLoadMore.postValue(productsList.canLoadMore)
+                _canLoadMore = productsList.canLoadMore
             } catch (e: UnknownHostException) {
                 _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = false))
             } catch (e: Exception) {
                 _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = false))
             } finally {
+                _loadingMoreItems.postValue(false)
                 _mainLoading.postValue(false)
             }
         }
@@ -93,7 +94,7 @@ class ProductsListViewModel(
                 _products.postValue((products.value ?: listOf()) + productsList.list)
 
                 _currentPage += 1
-                _canLoadMore.postValue(productsList.canLoadMore)
+                _canLoadMore = productsList.canLoadMore
             } catch (e: UnknownHostException) {
                 _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = true))
             } catch (e: Exception) {

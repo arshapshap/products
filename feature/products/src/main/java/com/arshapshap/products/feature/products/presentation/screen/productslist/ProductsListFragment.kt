@@ -34,7 +34,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
                 scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
 
-                if (!productsRecyclerView.canScrollVertically(1) && viewModel.canLoadMore.value == true)
+                if (!productsRecyclerView.canScrollVertically(1) && viewModel.canLoadMore)
                     viewModel.loadMore()
             }
 
@@ -51,29 +51,20 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
     override fun subscribe() {
         viewModel.loadData()
-
         viewModel.products.observe(viewLifecycleOwner) {
             getProductsAdapter().setProductsList(it)
         }
-
         viewModel.mainLoading.observe(viewLifecycleOwner) {
             binding.loadingProgressBar.isGone = !it
         }
-
         viewModel.categoryFilter.observe(viewLifecycleOwner) {
             getProductsAdapter().setCategoryFilter(it)
             if (it != null)
                 binding.productsRecyclerView.smoothScrollToPosition(0)
         }
-
         viewModel.loadingMoreItems.observe(viewLifecycleOwner) {
-            getProductsAdapter().setLoadMoreButton(visible = viewModel.canLoadMore.value ?: false, isLoading = it)
+            getProductsAdapter().setLoadMoreButton(visible = viewModel.canLoadMore, isLoading = it)
         }
-
-        viewModel.canLoadMore.observe(viewLifecycleOwner) {
-            getProductsAdapter().setLoadMoreButton(visible = it)
-        }
-
         viewModel.error.observe(viewLifecycleOwner) {
             if (it != null)
                 showError(it)
@@ -146,7 +137,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
         val drawable = ResourcesCompat.getDrawable(resources, drawableId, requireContext().theme)
         val headline = getString(headlineStringId)
-        val hint =getString(hintStringId)
+        val hint = getString(hintStringId)
 
         return Triple(drawable, headline, hint)
     }
