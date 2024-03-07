@@ -10,7 +10,6 @@ import com.arshapshap.products.feature.products.domain.model.Product
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
 import java.text.DecimalFormat
-import java.util.Locale
 
 
 internal class ProductsViewHolder(

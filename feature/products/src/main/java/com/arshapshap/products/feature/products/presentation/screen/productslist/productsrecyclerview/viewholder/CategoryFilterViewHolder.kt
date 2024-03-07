@@ -1,6 +1,5 @@
 package com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder
 
-import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.arshapshap.products.feature.products.databinding.ItemFilterInfoBinding
 import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.RecyclerViewItem
