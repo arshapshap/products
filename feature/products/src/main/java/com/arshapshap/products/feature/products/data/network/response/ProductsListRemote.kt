@@ -7,4 +7,10 @@ import kotlinx.serialization.Serializable
 internal data class ProductsListRemote(
     @SerialName("products")
     val products: List<ProductRemote>,
+    @SerialName("total")
+    val total: Int,
+    @SerialName("skip")
+    val skip: Int,
+    @SerialName("limit")
+    val limit: Int,
 )

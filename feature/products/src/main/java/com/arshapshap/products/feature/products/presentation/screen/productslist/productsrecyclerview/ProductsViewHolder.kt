@@ -28,7 +28,7 @@ internal class ProductsViewHolder(
                 .into(thumbnailImageView)
 
             ratingTag.text = resources.getString(R.string.rating, product.rating.toString())
-            categoryTag.text = product.category.capitalize()
+            categoryTag.text = product.category.name.capitalize()
 
             titleTextView.text = product.title
             descriptionTextView.text = product.description

@@ -79,6 +79,12 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="Products.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:paddingVertical">@dimen/button_default_vertical_padding</item>
+        <item name="cornerRadius">@dimen/normal_corner_radius</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
     <!-- TextInputs -->
     <style name="Products.TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="android:textColorHint">@color/grey400</item>

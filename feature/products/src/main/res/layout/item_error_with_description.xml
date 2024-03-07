@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:theme="@style/Theme.Products">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/error_image_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:tint="?attr/colorPrimary"
+        tools:src="@drawable/ic_forklift" />
+
+    <TextView
+        android:id="@+id/error_headline_text_view"
+        style="@style/Products.TextAppearance.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:text="@string/carrying_goods"
+        android:textColor="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/error_hint_text_view"
+        style="@style/Products.TextAppearance.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:gravity="center"
+        android:text="@string/don_t_worry_new_products_will_be_available_soon"
+        android:textColor="?attr/colorPrimary" />
+</LinearLayout>

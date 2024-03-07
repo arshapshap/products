@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.products.core.presentation.BaseViewModel
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -16,38 +16,66 @@ class ProductsListViewModel(
 ) : BaseViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
+    internal val products: LiveData<List<Product>> = _products
 
-    private val _loading = MutableLiveData(true)
-    val loading: LiveData<Boolean> = _loading
+    private val _mainLoading = MutableLiveData(true)
+    internal val mainLoading: LiveData<Boolean> = _mainLoading
 
-    private val _error = MutableLiveData<ProductsListError?>()
-    val error: LiveData<ProductsListError?> = _error
+    private val _loadingMoreItems = MutableLiveData(false)
+    internal val loadingMoreItems: LiveData<Boolean> = _loadingMoreItems
 
-    fun loadData() {
+    private val _showLoadMoreButton = MutableLiveData(false)
+    internal val showLoadMoreButton: LiveData<Boolean> = _showLoadMoreButton
+
+    private val _error = MutableLiveData<ProductsListEvent?>()
+    internal val error: LiveData<ProductsListEvent?> = _error
+
+    private var _currentPage = 0
+
+    internal fun loadData() {
         _products.postValue(listOf())
         _error.postValue(null)
-        _loading.postValue(true)
+        _mainLoading.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val products = getProductsUseCase()
-                _products.postValue(products)
+                val productsList = getProductsUseCase()
+                _products.postValue(productsList.list)
 
-                if (products.isEmpty())
-                    _error.postValue(ProductsListError.EmptyList)
-
+                if (productsList.list.isEmpty())
+                    _error.postValue(ProductsListEvent.ShowEmptyListError)
+                _showLoadMoreButton.postValue(productsList.canLoadMore)
             } catch (e: UnknownHostException) {
-                _error.postValue(ProductsListError.NoConnection)
+                _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = false))
             } catch (e: Exception) {
-                _error.postValue(ProductsListError.Unknown)
+                _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = false))
             } finally {
-                _loading.postValue(false)
+                _mainLoading.postValue(false)
             }
         }
     }
 
-    fun openDetails(productId: Int) {
+    internal fun openDetails(productId: Int) {
         // router.openDetails(productId)
+    }
+
+    internal fun loadMore() {
+        _loadingMoreItems.postValue(true)
+
+        _currentPage += 1
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val productsList = getProductsUseCase(_currentPage)
+                _products.postValue((_products.value ?: listOf()) + productsList.list)
+
+                _showLoadMoreButton.postValue(productsList.canLoadMore)
+            } catch (e: UnknownHostException) {
+                _error.postValue(ProductsListEvent.ShowNoConnectionError(showDialog = true))
+            } catch (e: Exception) {
+                _error.postValue(ProductsListEvent.ShowUnknownError(showDialog = true))
+            } finally {
+                _loadingMoreItems.postValue(false)
+            }
+        }
     }
 }

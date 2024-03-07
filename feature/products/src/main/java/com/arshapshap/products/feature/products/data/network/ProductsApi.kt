@@ -1,5 +1,6 @@
 package com.arshapshap.products.feature.products.data.network
 
+import com.arshapshap.products.feature.products.data.network.response.CategoryRemote
 import com.arshapshap.products.feature.products.data.network.response.ProductRemote
 import com.arshapshap.products.feature.products.data.network.response.ProductsListRemote
 import retrofit2.http.GET
@@ -18,7 +19,7 @@ internal interface ProductsApi {
     suspend fun getProductsBySearchQuery(@Query("q") query: String): ProductsListRemote
 
     @GET("products/categories")
-    suspend fun getCategories(): List<String>
+    suspend fun getCategories(): List<CategoryRemote>
 
     @GET("products/categories/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): ProductsListRemote
