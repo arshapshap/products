@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.ItemProductBinding
+import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.bumptech.glide.Glide
 import com.google.android.material.color.MaterialColors
@@ -14,7 +15,8 @@ import java.util.Locale
 
 internal class ProductsViewHolder(
     private val binding: ItemProductBinding,
-    private val onOpenDetails: (Int) -> Unit
+    private val onOpenDetails: (Int) -> Unit,
+    private val onCategoryClick: (Category) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val resources
@@ -28,7 +30,7 @@ internal class ProductsViewHolder(
                 .into(thumbnailImageView)
 
             ratingTag.text = resources.getString(R.string.rating, product.rating.toString())
-            categoryTag.text = product.category.name.capitalize()
+            categoryTag.text = product.category.name
 
             titleTextView.text = product.title
             descriptionTextView.text = product.description
@@ -45,16 +47,14 @@ internal class ProductsViewHolder(
             openDetailsButton.setOnClickListener {
                 onOpenDetails.invoke(product.id)
             }
+
+            categoryTag.setOnClickListener {
+                onCategoryClick.invoke(product.category)
+            }
         }
     }
 
     private fun Int.toStringWithSpaces(): String {
         return DecimalFormat("###,###").format(this).replace(',', ' ')
-    }
-
-    private fun String.capitalize() = this.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(
-            Locale.getDefault()
-        ) else it.toString()
     }
 }

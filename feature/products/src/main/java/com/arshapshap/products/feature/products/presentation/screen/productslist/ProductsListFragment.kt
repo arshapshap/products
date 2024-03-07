@@ -26,10 +26,10 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         with(binding) {
             productsRecyclerView.adapter = ProductsAdapter(
                 onOpenDetails = viewModel::openDetails,
+                onCategoryClick = viewModel::setCategoryFilter,
+                onCategoryFilterClick = viewModel::removeCategoryFilter,
                 onLoadMore = viewModel::loadMore
             )
-
-            //getProductsAdapter().setCategoryFilter(Category("Smartphones"))
 
             productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
                 scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
@@ -57,8 +57,14 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             binding.loadingProgressBar.isGone = !it
         }
 
+        viewModel.categoryFilter.observe(viewLifecycleOwner) {
+            getProductsAdapter().setCategoryFilter(it)
+            if (it != null)
+                binding.productsRecyclerView.smoothScrollToPosition(0)
+        }
+
         viewModel.loadingMoreItems.observe(viewLifecycleOwner) {
-            getProductsAdapter().setLoadMoreButton(isLoading = it)
+            getProductsAdapter().setLoadMoreButton(visible = viewModel.showLoadMoreButton.value ?: false, isLoading = it)
         }
 
         viewModel.showLoadMoreButton.observe(viewLifecycleOwner) {

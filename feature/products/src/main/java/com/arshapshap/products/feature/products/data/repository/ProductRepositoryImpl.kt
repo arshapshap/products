@@ -25,5 +25,5 @@ internal class ProductRepositoryImpl(
         remoteSource.getCategories().map { mapper.mapFromRemote(it) }
 
     override suspend fun getProductsByCategory(category: Category, skip: Int, limit: Int): ProductsList =
-        mapper.mapFromRemote(remoteSource.getProductsByCategory(category.name))
+        mapper.mapFromRemote(remoteSource.getProductsByCategory(category.name.lowercase()))
 }

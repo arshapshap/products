@@ -21,6 +21,8 @@ private const val VIEW_TYPE_FILTER_INFO = 2
 internal class ProductsAdapter(
     private var list: MutableList<RecyclerViewItem> = mutableListOf(),
     private val onOpenDetails: (Int) -> Unit,
+    private val onCategoryClick: (Category) -> Unit,
+    private val onCategoryFilterClick: () -> Unit,
     private val onLoadMore: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,12 +39,13 @@ internal class ProductsAdapter(
         updateList(recyclerViewItemsList)
     }
 
-    fun setLoadMoreButton(visible: Boolean? = null, isLoading: Boolean? = null) {
+    fun setLoadMoreButton(visible: Boolean, isLoading: Boolean? = null) {
         val oldLoadMoreButtonItem = getLoadMoreButtonItem()
-        val newList = list.takeWhile { it !is RecyclerViewItem.LoadMoreButtonItem } + RecyclerViewItem.LoadMoreButtonItem(
-                visible = visible ?: oldLoadMoreButtonItem.visible,
+        val newList = list.takeWhile { it !is RecyclerViewItem.LoadMoreButtonItem }.toMutableList()
+        if (visible)
+            newList.add(RecyclerViewItem.LoadMoreButtonItem(
                 isLoading = isLoading ?: oldLoadMoreButtonItem.isLoading
-            )
+            ))
         updateList(newList)
     }
 
@@ -50,14 +53,15 @@ internal class ProductsAdapter(
         return if (list.isNotEmpty() && list.last() is RecyclerViewItem.LoadMoreButtonItem)
             (list.last() as RecyclerViewItem.LoadMoreButtonItem)
         else
-            RecyclerViewItem.LoadMoreButtonItem(visible = false, isLoading = false)
+            RecyclerViewItem.LoadMoreButtonItem(isLoading = false)
     }
 
     fun setCategoryFilter(category: Category?) {
-        val newList = mutableListOf<RecyclerViewItem>(RecyclerViewItem.CategoryFilterItem(
-            visible = category != null,
-            category = category
-        ))
+        val newList = mutableListOf<RecyclerViewItem>()
+        if (category != null)
+            newList.add(RecyclerViewItem.CategoryFilterItem(
+                category = category
+            ))
         newList.addAll(list.dropWhile { it is RecyclerViewItem.CategoryFilterItem })
         updateList(newList)
     }
@@ -71,9 +75,9 @@ internal class ProductsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        VIEW_TYPE_PRODUCT -> ProductsViewHolder(getItemProductBinding(parent), onOpenDetails)
+        VIEW_TYPE_PRODUCT -> ProductsViewHolder(getItemProductBinding(parent), onOpenDetails, onCategoryClick)
         VIEW_TYPE_LOAD_MORE_BUTTON -> LoadMoreButtonViewHolder(getLoadMoreButtonBinding(parent), onLoadMore)
-        VIEW_TYPE_FILTER_INFO -> CategoryFilterViewHolder(getFilterInfoBinding(parent))
+        VIEW_TYPE_FILTER_INFO -> CategoryFilterViewHolder(getFilterInfoBinding(parent), onCategoryFilterClick)
         else -> throw IllegalArgumentException("Unsupported view type")
     }
 
@@ -115,12 +119,34 @@ internal class ProductsAdapter(
         override fun getNewListSize(): Int = newList.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return areBothCategories(oldItemPosition, newItemPosition)
+                    || areProductsIdsTheSame(oldItemPosition, newItemPosition)
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return areCategoriesTheSame(oldItemPosition, newItemPosition)
+                    || areProductsTheSame(oldItemPosition, newItemPosition)
+        }
+
+        private fun areBothCategories(oldItemPosition: Int, newItemPosition: Int) : Boolean {
+            if (oldList[oldItemPosition] !is RecyclerViewItem.CategoryFilterItem) return false
+            if (newList[newItemPosition] !is RecyclerViewItem.CategoryFilterItem) return false
+            return true
+        }
+
+        private fun areProductsIdsTheSame(oldItemPosition: Int, newItemPosition: Int) : Boolean {
             val old = oldList[oldItemPosition] as? RecyclerViewItem.ProductItem ?: return false
             val new = newList[newItemPosition] as? RecyclerViewItem.ProductItem ?: return false
             return old.product.id == new.product.id
         }
 
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        private fun areCategoriesTheSame(oldItemPosition: Int, newItemPosition: Int) : Boolean {
+            val old = oldList[oldItemPosition] as? RecyclerViewItem.CategoryFilterItem ?: return false
+            val new = newList[newItemPosition] as? RecyclerViewItem.CategoryFilterItem ?: return false
+            return old.category == new.category
+        }
+
+        private fun areProductsTheSame(oldItemPosition: Int, newItemPosition: Int) : Boolean {
             val old = oldList[oldItemPosition] as? RecyclerViewItem.ProductItem ?: return false
             val new = newList[newItemPosition] as? RecyclerViewItem.ProductItem ?: return false
             return old.product == new.product

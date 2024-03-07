@@ -21,6 +21,6 @@ internal interface ProductsApi {
     @GET("products/categories")
     suspend fun getCategories(): List<CategoryRemote>
 
-    @GET("products/categories/{category}")
+    @GET("products/category/{category}")
     suspend fun getProductsByCategory(@Path("category") category: String): ProductsListRemote
 }

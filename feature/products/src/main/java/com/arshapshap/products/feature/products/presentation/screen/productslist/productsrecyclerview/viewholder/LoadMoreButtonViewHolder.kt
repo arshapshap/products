@@ -12,7 +12,7 @@ internal class LoadMoreButtonViewHolder(
 
     fun onBind(loadMoreButtonItemInfo: RecyclerViewItem.LoadMoreButtonItem) {
         with (binding) {
-            loadMoreButton.isGone = !loadMoreButtonItemInfo.visible || loadMoreButtonItemInfo.isLoading
+            loadMoreButton.isGone = loadMoreButtonItemInfo.isLoading
             loadingProgressBar.isGone = !loadMoreButtonItemInfo.isLoading
 
             loadMoreButton.setOnClickListener {

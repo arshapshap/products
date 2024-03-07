@@ -7,7 +7,7 @@ internal sealed interface RecyclerViewItem {
 
     data class ProductItem(val product: Product) : RecyclerViewItem
 
-    data class LoadMoreButtonItem(val visible: Boolean, val isLoading: Boolean) : RecyclerViewItem
+    data class LoadMoreButtonItem(val isLoading: Boolean) : RecyclerViewItem
 
-    data class CategoryFilterItem(val visible: Boolean, val category: Category?) : RecyclerViewItem
+    data class CategoryFilterItem(val category: Category?) : RecyclerViewItem
 }

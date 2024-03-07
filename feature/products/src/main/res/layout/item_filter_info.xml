@@ -19,5 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_margin"
+        android:clickable="true"
         app:text="Smartphones" />
 </LinearLayout>

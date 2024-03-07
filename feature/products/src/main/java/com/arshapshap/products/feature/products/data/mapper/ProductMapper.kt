@@ -6,6 +6,7 @@ import com.arshapshap.products.feature.products.data.network.response.ProductsLi
 import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.model.ProductsList
+import java.util.Locale
 
 internal class ProductMapper {
 
@@ -25,7 +26,7 @@ internal class ProductMapper {
         rating = remote.rating,
         stock = remote.stock,
         brand = remote.brand,
-        category = Category(name = remote.category),
+        category = Category(name = remote.category.capitalize()),
         thumbnailUrl = remote.thumbnail,
         imagesUrl = remote.images
     )
@@ -38,4 +39,10 @@ internal class ProductMapper {
     }
 
     private fun canLoadMore(total: Int, skip: Int, limit: Int) = skip + limit < total
+
+    private fun String.capitalize() = this.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(
+            Locale.getDefault()
+        ) else it.toString()
+    }
 }

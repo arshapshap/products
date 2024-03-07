@@ -4,6 +4,7 @@ import com.arshapshap.products.feature.products.data.mapper.ProductMapper
 import com.arshapshap.products.feature.products.data.network.ProductsApi
 import com.arshapshap.products.feature.products.data.repository.ProductRepositoryImpl
 import com.arshapshap.products.feature.products.domain.repository.ProductRepository
+import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
 import com.arshapshap.products.feature.products.presentation.screen.productslist.ProductsListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,7 +19,8 @@ val featureProductsModule = module {
 
     // domain
     factory<GetProductsUseCase> { GetProductsUseCase(get()) }
+    factory<GetProductsByCategoryUseCase> { GetProductsByCategoryUseCase(get()) }
 
     // presentation
-    viewModel<ProductsListViewModel> { ProductsListViewModel(get()) }
+    viewModel<ProductsListViewModel> { ProductsListViewModel(get(), get()) }
 }
