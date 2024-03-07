@@ -1,4 +1,4 @@
-package com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview
+package com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.viewholder
 
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
