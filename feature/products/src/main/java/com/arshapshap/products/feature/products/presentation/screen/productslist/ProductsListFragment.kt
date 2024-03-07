@@ -29,9 +29,17 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
                 onLoadMore = viewModel::loadMore
             )
 
+            productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
+                scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
+            }
+
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.loadData()
                 swipeRefreshLayout.isRefreshing = false
+            }
+
+            scrollUpImageButton.setOnClickListener {
+                productsRecyclerView.smoothScrollToPosition(0)
             }
         }
     }

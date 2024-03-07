@@ -5,12 +5,12 @@
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:theme="@style/Theme.Products">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/products_recycler_view"
@@ -19,8 +19,7 @@
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="5"
-            tools:listitem="@layout/item_product"
-            tools:visibility="gone" />
+            tools:listitem="@layout/item_product" />
 
         <ProgressBar
             android:id="@+id/loading_progress_bar"
@@ -34,7 +33,21 @@
             layout="@layout/item_error_with_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            tools:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/scroll_up_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/default_margin"
+            android:background="@drawable/shape_normal_rounded_rectangle"
+            android:elevation="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            android:src="@drawable/ic_arrow_upward"
+            android:tint="@color/grey500"
+            android:visibility="gone" />
 
     </FrameLayout>
 

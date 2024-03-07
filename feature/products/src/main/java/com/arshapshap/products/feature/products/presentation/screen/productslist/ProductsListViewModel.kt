@@ -36,6 +36,7 @@ class ProductsListViewModel(
         _products.postValue(listOf())
         _error.postValue(null)
         _mainLoading.postValue(true)
+        _showLoadMoreButton.postValue(false)
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
