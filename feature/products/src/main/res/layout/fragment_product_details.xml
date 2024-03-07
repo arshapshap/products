@@ -26,6 +26,7 @@
             android:layout_height="20dp"
             android:layout_marginBottom="@dimen/small_margin"
             android:background="@drawable/shape_normal_rounded_rectangle"
+            android:backgroundTint="@color/grey200"
             app:layout_constraintBottom_toBottomOf="@+id/images_view_pager_2"
             app:layout_constraintEnd_toEndOf="@+id/images_view_pager_2"
             app:layout_constraintStart_toStartOf="@+id/images_view_pager_2"
@@ -36,6 +37,7 @@
             style="@style/Products.TagView.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
             app:layout_constraintBottom_toTopOf="@id/title_text_view"
             app:layout_constraintEnd_toStartOf="@id/rating_tag"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -48,21 +50,10 @@
             style="@style/Products.TagView.Rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/stock_tag"
+            android:layout_marginStart="@dimen/small_margin"
             app:layout_constraintStart_toEndOf="@id/category_tag"
             app:layout_constraintTop_toTopOf="@id/category_tag"
             app:text="4.4 Rating" />
-
-        <com.arshapshap.products.core.designsystem.customview.TagView
-            android:id="@+id/stock_tag"
-            style="@style/Products.TagView.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:drawableStart="@drawable/ic_package"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/rating_tag"
-            app:layout_constraintTop_toTopOf="@id/rating_tag"
-            tools:text="1000 Stock" />
 
         <TextView
             android:id="@+id/title_text_view"
@@ -75,7 +66,7 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stock_tag"
+            app:layout_constraintTop_toBottomOf="@id/category_tag"
             tools:text="iPhone 9" />
 
         <TextView
@@ -96,10 +87,21 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/Products.TextAppearance.Body1"
             android:textColor="@color/grey500"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@id/title_text_view"
             tools:layout_editor_absoluteX="16dp"
             tools:text="An apple mobile which is nothing like apple" />
+
+        <com.arshapshap.products.core.designsystem.customview.TagView
+            android:id="@+id/stock_tag"
+            style="@style/Products.TagView.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            app:drawableStart="@drawable/ic_package"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/description_text_view"
+            tools:text="1000 Stock" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

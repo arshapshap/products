@@ -40,8 +40,10 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
         binding.imagesViewPager2.adapter = ImageCarouselAdapter()
 
         val tabLayoutMediator = TabLayoutMediator(
-            binding.tabLayout, binding.imagesViewPager2, true
-        ) { tab, position -> }
+            binding.tabLayout,
+            binding.imagesViewPager2,
+            true
+        ) { _, _ -> }
         tabLayoutMediator.attach()
     }
 
