@@ -25,6 +25,10 @@ class ProductDetailsViewModel internal constructor(
     private val _error = MutableLiveData<ProductDetailsError?>()
     internal val error: LiveData<ProductDetailsError?> = _error
 
+    init {
+        loadData()
+    }
+
     internal fun loadData() {
         _loading.value = true
 

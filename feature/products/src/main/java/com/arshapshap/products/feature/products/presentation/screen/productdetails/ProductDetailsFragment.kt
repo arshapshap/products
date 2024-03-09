@@ -37,20 +37,27 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
     )
 
     override fun initViews() {
-        binding.imagesViewPager2.adapter = ImageCarouselAdapter()
+        with (binding) {
+            imagesViewPager2.adapter = ImageCarouselAdapter()
 
-        val tabLayoutMediator = TabLayoutMediator(
-            binding.tabLayout,
-            binding.imagesViewPager2,
-            true
-        ) { _, _ -> }
-        tabLayoutMediator.attach()
+            val tabLayoutMediator = TabLayoutMediator(
+                tabLayout,
+                imagesViewPager2,
+                true
+            ) { _, _ -> }
+            tabLayoutMediator.attach()
+
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.loadData()
+                swipeRefreshLayout.isRefreshing = false
+            }
+        }
     }
 
     override fun subscribe() {
-        viewModel.loadData()
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.loadingProgressBar.isGone = !it
+            binding.contentLayout.isGone = it
         }
         viewModel.product.observe(viewLifecycleOwner) {
             if (it != null)
