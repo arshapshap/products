@@ -39,6 +39,10 @@ class ProductsListViewModel internal constructor(
     private val _error = MutableLiveData<ProductsListError?>()
     internal val error: LiveData<ProductsListError?> = _error
 
+    init {
+        loadData()
+    }
+
     private var _currentPage = 0
 
     internal fun loadData() {

@@ -50,7 +50,6 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
     }
 
     override fun subscribe() {
-        viewModel.loadData()
         viewModel.products.observe(viewLifecycleOwner) {
             getProductsAdapter().setProductsList(it)
         }
@@ -59,8 +58,6 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         }
         viewModel.categoryFilter.observe(viewLifecycleOwner) {
             getProductsAdapter().setCategoryFilter(it)
-            if (it != null)
-                binding.productsRecyclerView.smoothScrollToPosition(0)
         }
         viewModel.loadingMoreItems.observe(viewLifecycleOwner) {
             getProductsAdapter().setLoadMoreButton(visible = viewModel.canLoadMore, isLoading = it)
