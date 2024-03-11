@@ -3,7 +3,6 @@ package com.arshapshap.products.feature.products.presentation.screen.productslis
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.arshapshap.products.feature.products.databinding.ItemCategoryBinding
 import com.arshapshap.products.feature.products.domain.model.Category

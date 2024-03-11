@@ -7,7 +7,6 @@ import com.arshapshap.products.core.presentation.BaseViewModel
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.usecase.GetProductByIdUseCase
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.model.ProductDetailsError
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
