@@ -16,11 +16,19 @@ internal interface ProductsApi {
     suspend fun getProductById(@Path("id") id: Int): ProductRemote?
 
     @GET("products/search")
-    suspend fun getProductsBySearchQuery(@Query("q") query: String): ProductsListRemote
+    suspend fun getProductsBySearchQuery(
+        @Query("q") query: String,
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): ProductsListRemote
 
     @GET("products/categories")
     suspend fun getCategories(): List<CategoryRemote>
 
     @GET("products/category/{category}")
-    suspend fun getProductsByCategory(@Path("category") category: String): ProductsListRemote
+    suspend fun getProductsByCategory(
+        @Path("category") category: String,
+        @Query("skip") skip: Int,
+        @Query("limit") limit: Int
+    ): ProductsListRemote
 }

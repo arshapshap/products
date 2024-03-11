@@ -26,7 +26,7 @@ internal class ProductsAdapter(
     private val onLoadMore: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun setProductsList(newList: List<Product>) {
+    fun setList(newList: List<Product>) {
         val recyclerViewItemsList = mutableListOf<RecyclerViewItem>()
         if (list.isNotEmpty() && list.first() is RecyclerViewItem.CategoryFilterItem)
             recyclerViewItemsList.add(list.first())

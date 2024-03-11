@@ -10,13 +10,13 @@ import java.util.Locale
 
 internal class ProductMapper {
 
-    fun mapFromRemote(remote: ProductsListRemote) =
+    fun toDomain(remote: ProductsListRemote) =
         ProductsList(
-            list = remote.products.map { mapFromRemote(it) },
+            list = remote.products.map { toDomain(it) },
             canLoadMore = canLoadMore(remote.total, remote.skip, remote.limit)
         )
 
-    fun mapFromRemote(remote: ProductRemote) = Product(
+    fun toDomain(remote: ProductRemote) = Product(
         id = remote.id,
         title = remote.title,
         description = remote.description,
@@ -26,12 +26,22 @@ internal class ProductMapper {
         rating = remote.rating,
         stock = remote.stock,
         brand = remote.brand,
-        category = Category(name = remote.category.capitalize()),
+        category = toDomain(remote.category),
         thumbnailUrl = remote.thumbnail,
         imagesUrl = remote.images
     )
 
-    fun mapFromRemote(remote: CategoryRemote) = Category(name = remote.name)
+    fun toDomain(remote: CategoryRemote) = Category(
+        name = remote.name.capitalize().replace('-', ' ')
+    )
+
+    fun toRemote(category: Category) = CategoryRemote(
+        name = category.name.lowercase().replace(' ', '-')
+    )
+
+    private fun toDomain(categoryNameRemote: String) = Category(
+        name = categoryNameRemote.capitalize().replace('-', ' ')
+    )
 
     private fun getPriceWithoutDiscount(price: Int, discountPercentage: Double): Int {
         if (discountPercentage == 0.0) return price

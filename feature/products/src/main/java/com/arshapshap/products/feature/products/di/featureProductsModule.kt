@@ -4,6 +4,7 @@ import com.arshapshap.products.feature.products.data.mapper.ProductMapper
 import com.arshapshap.products.feature.products.data.network.ProductsApi
 import com.arshapshap.products.feature.products.data.repository.ProductRepositoryImpl
 import com.arshapshap.products.feature.products.domain.repository.ProductRepository
+import com.arshapshap.products.feature.products.domain.usecase.GetCategoriesUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductByIdUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
@@ -23,9 +24,10 @@ val featureProductsModule = module {
     factory<GetProductsUseCase> { GetProductsUseCase(get()) }
     factory<GetProductsByCategoryUseCase> { GetProductsByCategoryUseCase(get()) }
     factory<GetProductByIdUseCase> { GetProductByIdUseCase(get()) }
+    factory<GetCategoriesUseCase> { GetCategoriesUseCase(get()) }
 
     // presentation
-    viewModel<ProductsListViewModel> { ProductsListViewModel(get(), get(), get()) }
+    viewModel<ProductsListViewModel> { ProductsListViewModel(get(), get(), get(), get()) }
     viewModel<ProductDetailsViewModel> { (productId: Int) ->
         ProductDetailsViewModel(get(), productId)
     }

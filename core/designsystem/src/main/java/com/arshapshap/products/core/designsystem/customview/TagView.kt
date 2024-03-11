@@ -3,7 +3,6 @@ package com.arshapshap.products.core.designsystem.customview
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,9 +20,33 @@ class TagView @JvmOverloads constructor(
 
     var text: String = ""
         set(value) {
-            findViewById<TextView>(R.id.textView)?.text = value
+            findViewById<TextView>(R.id.category_name_text_view)?.text = value
             field = value
         }
+
+    @ColorInt
+    var contentColor: Int = 0
+        set(value) {
+            findViewById<TextView>(R.id.category_name_text_view)?.setTextColor(value)
+            findViewById<ImageView>(R.id.check_box_image_view).setColorFilter(value)
+            findViewById<ImageView>(R.id.drawable_end_image_view).setColorFilter(value)
+            field = value
+        }
+
+    @ColorInt
+    var shapeColor: Int = 0
+        set(value) {
+            background.setTint(value)
+            field = value
+        }
+
+    fun setDrawableStart(@DrawableRes drawableId: Int) {
+        findViewById<ImageView>(R.id.check_box_image_view)?.setDrawableOrHide(drawableId)
+    }
+
+    fun setDrawableEnd(@DrawableRes drawableId: Int) {
+        findViewById<ImageView>(R.id.drawable_end_image_view)?.setDrawableOrHide(drawableId)
+    }
 
     init {
         init(attrs)
@@ -43,7 +66,6 @@ class TagView @JvmOverloads constructor(
     }
 
     private fun setDefaultValues() {
-        gravity = Gravity.CENTER
         setBackgroundResource(R.drawable.shape_small_rounded_rectangle)
 
         val paddingHorizontal =
@@ -58,27 +80,22 @@ class TagView @JvmOverloads constructor(
     }
 
     private fun setValuesFromAttributes(typedArray: TypedArray) {
-        val text = typedArray.getString(R.styleable.TagView_text)
-        val contentColor = typedArray.getColor(R.styleable.TagView_contentColor, 0)
-        findViewById<TextView>(R.id.textView)?.let {
-            it.text = text
-            it.setTextColor(contentColor)
-        }
+        text = typedArray.getString(R.styleable.TagView_text) ?: ""
+        contentColor = typedArray.getColor(R.styleable.TagView_contentColor, 0)
+        shapeColor = typedArray.getColor(R.styleable.TagView_shapeColor, 0)
 
-        val shapeColor = typedArray.getColor(R.styleable.TagView_shapeColor, 0)
-        background.setTint(shapeColor)
 
         val drawableStartId = typedArray.getResourceId(R.styleable.TagView_drawableStart, 0)
-        findViewById<ImageView>(R.id.imageViewIconStart)?.setIconOrHide(drawableStartId, contentColor)
+        setDrawableStart(drawableStartId)
 
         val drawableEndId = typedArray.getResourceId(R.styleable.TagView_drawableEnd, 0)
-        findViewById<ImageView>(R.id.imageViewIconEnd)?.setIconOrHide(drawableEndId, contentColor)
+        setDrawableEnd(drawableEndId)
     }
 
-    private fun ImageView.setIconOrHide(@DrawableRes drawableId: Int, @ColorInt color: Int? = null) {
+    private fun ImageView.setDrawableOrHide(@DrawableRes drawableId: Int) {
         isGone = drawableId == 0
         setImageResource(drawableId)
-        if (color != null)
-            setColorFilter(color)
+        if (contentColor != 0)
+            setColorFilter(contentColor)
     }
 }

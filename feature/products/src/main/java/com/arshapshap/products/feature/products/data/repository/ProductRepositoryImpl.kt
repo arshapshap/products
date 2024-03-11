@@ -13,17 +13,19 @@ internal class ProductRepositoryImpl(
 ) : ProductRepository {
 
     override suspend fun getProducts(skip: Int, limit: Int): ProductsList =
-        mapper.mapFromRemote(remoteSource.getProducts(skip, limit))
+        mapper.toDomain(remoteSource.getProducts(skip, limit))
 
     override suspend fun getProductById(id: Int): Product? =
-        remoteSource.getProductById(id)?.let { mapper.mapFromRemote(it) }
+        remoteSource.getProductById(id)?.let { mapper.toDomain(it) }
 
     override suspend fun getProductsBySearchQuery(query: String, skip: Int, limit: Int): ProductsList =
-        mapper.mapFromRemote(remoteSource.getProductsBySearchQuery(query))
+        mapper.toDomain(remoteSource.getProductsBySearchQuery(query, skip, limit))
 
     override suspend fun getCategories(): List<Category> =
-        remoteSource.getCategories().map { mapper.mapFromRemote(it) }
+        remoteSource.getCategories().map { mapper.toDomain(it) }
 
-    override suspend fun getProductsByCategory(category: Category, skip: Int, limit: Int): ProductsList =
-        mapper.mapFromRemote(remoteSource.getProductsByCategory(category.name.lowercase()))
+    override suspend fun getProductsByCategory(category: Category, skip: Int, limit: Int): ProductsList {
+        val categoryRemote = mapper.toRemote(category)
+        return mapper.toDomain(remoteSource.getProductsByCategory(categoryRemote.name, skip, limit))
+    }
 }

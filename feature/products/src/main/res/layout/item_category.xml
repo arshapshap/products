@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/extra_small_margin"
+    android:backgroundTint="@color/white"
+    android:paddingVertical="@dimen/tag_view_padding_vertical"
+    android:theme="@style/Theme.Products">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/check_box_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/tag_view_margin_between"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_check_box_blank"
+        app:tint="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/category_name_text_view"
+        style="@style/Products.TextAppearance.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorPrimary"
+        tools:text="Smartphones" />
+</LinearLayout>

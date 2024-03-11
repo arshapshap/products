@@ -35,7 +35,7 @@
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/thumbnail_card_view"
-        app:text="Smartphones" />
+        tools:text="Smartphones" />
 
     <com.arshapshap.products.core.designsystem.customview.TagView
         android:id="@+id/rating_tag"
@@ -45,7 +45,7 @@
         android:layout_marginStart="@dimen/small_margin"
         app:layout_constraintStart_toEndOf="@id/category_tag"
         app:layout_constraintTop_toTopOf="@id/category_tag"
-        app:text="4.4 Rating" />
+        tools:text="4.4 Rating" />
 
     <TextView
         android:id="@+id/title_text_view"
@@ -71,10 +71,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
-        android:textColor="?attr/colorPrimary"
         android:layout_marginEnd="@dimen/small_margin"
         android:textAppearance="@style/Products.TextAppearance.Large"
+        android:textColor="?attr/colorPrimary"
         app:layout_constraintEnd_toStartOf="@id/price_without_discount_text_view"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description_text_view"
         tools:text="549 $" />
 
@@ -84,10 +87,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/Products.TextAppearance.Body1"
         android:textColor="@color/grey500"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@id/price_text_view"
-        tools:text="1 000 $"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/price_text_view"
+        tools:text="1 000 $" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/open_details_button"

@@ -5,23 +5,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_small_rounded_rectangle"
-    android:gravity="center"
     android:paddingHorizontal="@dimen/tag_view_padding_horizontal"
     android:paddingVertical="@dimen/tag_view_padding_vertical"
     tools:backgroundTint="@color/purple100"
     tools:parentTag="androidx.appcompat.widget.LinearLayoutCompat">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewIconStart"
+        android:id="@+id/check_box_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/tag_view_margin_between"
         android:importantForAccessibility="no"
         app:tint="@color/purple700"
+        tools:src="@drawable/ic_star"
         tools:visibility="gone" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/category_name_text_view"
         style="@style/Products.TextAppearance.Body1.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         tools:textColor="@color/purple700" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageViewIconEnd"
+        android:id="@+id/drawable_end_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/tag_view_margin_between"

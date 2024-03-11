@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.products.core.presentation.BaseViewModel
 import com.arshapshap.products.feature.products.domain.model.Category
 import com.arshapshap.products.feature.products.domain.model.Product
+import com.arshapshap.products.feature.products.domain.usecase.GetCategoriesUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
 import com.arshapshap.products.feature.products.presentation.FeatureProductsRouter
@@ -13,16 +14,21 @@ import com.arshapshap.products.feature.products.presentation.screen.productslist
 import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class ProductsListViewModel internal constructor(
     private val getProductsUseCase: GetProductsUseCase,
     private val getProductsByCategoryUseCase: GetProductsByCategoryUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
     private val router: FeatureProductsRouter
 ) : BaseViewModel() {
 
     private val _products = MutableLiveData<List<Product>>()
     internal val products: LiveData<List<Product>> = _products
+
+    private val _categories = MutableLiveData<List<Category>>()
+    internal val categories: LiveData<List<Category>> = _categories
 
     private val _mainLoading = MutableLiveData(true)
     internal val mainLoading: LiveData<Boolean> = _mainLoading
@@ -58,16 +64,20 @@ class ProductsListViewModel internal constructor(
                 val productsList = categoryFilter.value?.let {
                     getProductsByCategoryUseCase(it)
                 } ?: getProductsUseCase()
+                val categories = getCategoriesUseCase()
 
                 _products.postValue(productsList.list)
+                _categories.postValue(categories)
 
                 if (productsList.list.isEmpty())
                     _error.postValue(EmptyListError)
                 _canLoadMore = productsList.canLoadMore
-            } catch (e: UnknownHostException) {
-                _error.postValue(NoConnectionError(showDialog = false))
             } catch (e: Exception) {
-                _error.postValue(UnknownError(showDialog = false))
+                when (e) {
+                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
+                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
+                    else -> _error.postValue(UnknownError(showDialog = false))
+                }
             } finally {
                 _loadingMoreItems.postValue(false)
                 _mainLoading.postValue(false)

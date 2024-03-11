@@ -4,6 +4,7 @@
         <attr name="drawableStart" format="reference" />
         <attr name="drawableEnd" format="reference" />
         <attr name="text" format="string" />
+        <attr name="android:textFontWeight" format="integer" />
         <attr name="contentColor" format="color" />
         <attr name="shapeColor" format="color" />
     </declare-styleable>

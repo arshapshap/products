@@ -18,4 +18,6 @@
     <string name="something_weird">Something weird…</string>
     <string name="the_product_was_not_found_an_error_may_have_occurred">The product was not found</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="add_a_filter">Add a filter</string>
+    <string name="categories">Categories:</string>
 </resources>

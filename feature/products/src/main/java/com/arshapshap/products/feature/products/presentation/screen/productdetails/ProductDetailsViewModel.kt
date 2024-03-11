@@ -7,8 +7,10 @@ import com.arshapshap.products.core.presentation.BaseViewModel
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.usecase.GetProductByIdUseCase
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.model.ProductDetailsError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class ProductDetailsViewModel internal constructor(
@@ -39,10 +41,12 @@ class ProductDetailsViewModel internal constructor(
 
                 if (product == null)
                     _error.postValue(ProductDetailsError.ProductNotFoundError)
-            } catch (e: UnknownHostException) {
-                _error.postValue(ProductDetailsError.NoConnectionError)
             } catch (e: Exception) {
-                _error.postValue(ProductDetailsError.UnknownError)
+                when (e) {
+                    is UnknownHostException -> _error.postValue(ProductDetailsError.NoConnectionError)
+                    is SocketTimeoutException -> _error.postValue(ProductDetailsError.NoConnectionError)
+                    else -> _error.postValue(ProductDetailsError.UnknownError)
+                }
             } finally {
                 _loading.postValue(false)
             }

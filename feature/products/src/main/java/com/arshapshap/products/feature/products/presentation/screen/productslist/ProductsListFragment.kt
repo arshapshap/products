@@ -2,27 +2,36 @@ package com.arshapshap.products.feature.products.presentation.screen.productslis
 
 import android.app.Dialog
 import android.graphics.drawable.Drawable
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.isGone
+import androidx.lifecycle.Lifecycle
 import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.FragmentProductsListBinding
+import com.arshapshap.products.feature.products.presentation.screen.productslist.categoriesrecyclerview.CategoriesAdapter
 import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
 import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.NoConnectionError
 import com.arshapshap.products.feature.products.presentation.screen.productslist.productsrecyclerview.ProductsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsListViewModel>(
     FragmentProductsListBinding::inflate
-) {
+), MenuProvider {
 
     override val viewModel: ProductsListViewModel by viewModel()
 
     override fun initViews() {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         with(binding) {
             productsRecyclerView.adapter = ProductsAdapter(
                 onOpenDetails = viewModel::openDetails,
@@ -30,19 +39,27 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
                 onCategoryFilterClick = viewModel::removeCategoryFilter,
                 onLoadMore = viewModel::loadMore
             )
-
+            categoriesRecyclerView.adapter = CategoriesAdapter(
+                onSelectCategory = {
+                    closeDrawer()
+                    viewModel.setCategoryFilter(it)
+                },
+                onUnselectCategory = {
+                    closeDrawer()
+                    viewModel.removeCategoryFilter()
+                }
+            )
             productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
                 scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
 
                 if (!productsRecyclerView.canScrollVertically(1) && viewModel.canLoadMore)
                     viewModel.loadMore()
             }
-
             swipeRefreshLayout.setOnRefreshListener {
+                closeDrawer()
                 viewModel.loadData()
                 swipeRefreshLayout.isRefreshing = false
             }
-
             scrollUpImageButton.setOnClickListener {
                 productsRecyclerView.smoothScrollToPosition(0)
             }
@@ -51,10 +68,17 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
     override fun subscribe() {
         viewModel.products.observe(viewLifecycleOwner) {
-            getProductsAdapter().setProductsList(it)
+            getProductsAdapter().setList(it)
+        }
+        viewModel.categories.observe(viewLifecycleOwner) {
+            getCategoriesAdapter().setList(it)
+        }
+        viewModel.categoryFilter.observe(viewLifecycleOwner) {
+            getCategoriesAdapter().setSelectedCategory(it)
         }
         viewModel.mainLoading.observe(viewLifecycleOwner) {
             binding.loadingProgressBar.isGone = !it
+            requireActivity().invalidateOptionsMenu()
         }
         viewModel.categoryFilter.observe(viewLifecycleOwner) {
             getProductsAdapter().setCategoryFilter(it)
@@ -68,6 +92,37 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             else
                 binding.errorLinearLayout.root.isGone = true
         }
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_products_list, menu)
+        menu.findItem(R.id.add_filter_button).isVisible = shouldShowFilterButton()
+    }
+
+    private fun shouldShowFilterButton() =
+        !viewModel.categories.value.isNullOrEmpty()
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.add_filter_button -> {
+                if (viewModel.mainLoading.value == true || viewModel.categories.value?.isEmpty() == true)
+                    return true
+                else if (binding.categoriesDrawerLayout.isDrawerOpen(Gravity.RIGHT))
+                    closeDrawer()
+                else
+                    openDrawer()
+                return true
+            }
+            else -> false
+        }
+    }
+
+    private fun openDrawer() {
+        binding.categoriesDrawerLayout.openDrawer(Gravity.RIGHT)
+    }
+
+    private fun closeDrawer() {
+        binding.categoriesDrawerLayout.closeDrawer(Gravity.RIGHT)
     }
 
     private fun showError(error: ProductsListError) {
@@ -141,4 +196,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
     private fun getProductsAdapter() =
         binding.productsRecyclerView.adapter as ProductsAdapter
+
+    private fun getCategoriesAdapter() =
+        binding.categoriesRecyclerView.adapter as CategoriesAdapter
 }
