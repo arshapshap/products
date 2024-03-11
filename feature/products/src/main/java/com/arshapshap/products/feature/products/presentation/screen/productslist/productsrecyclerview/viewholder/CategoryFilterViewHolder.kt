@@ -6,14 +6,17 @@ import com.arshapshap.products.feature.products.presentation.screen.productslist
 
 internal class CategoryFilterViewHolder(
     private val binding: ItemFilterInfoBinding,
-    private val onCategoryClick: () -> Unit
+    private val onRemoveFilter: () -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(category: RecyclerViewItem.CategoryFilterItem) {
         binding.filterCategoryTagView.text = category.category?.name ?: ""
 
         binding.filterCategoryTagView.setOnClickListener {
-            onCategoryClick.invoke()
+            onRemoveFilter.invoke()
+        }
+        binding.removeFilterButton.setOnClickListener {
+            onRemoveFilter.invoke()
         }
     }
 }

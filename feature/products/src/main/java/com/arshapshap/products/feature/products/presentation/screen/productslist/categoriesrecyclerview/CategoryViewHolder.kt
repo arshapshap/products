@@ -21,10 +21,10 @@ internal class CategoryViewHolder(
             }
 
             if (isSelected) {
-                setDrawableStart(R.drawable.ic_check_box)
+                setDrawableStart(R.drawable.ic_radio_button_checked)
             }
             else {
-                setDrawableStart(R.drawable.ic_check_box_blank)
+                setDrawableStart(R.drawable.ic_radio_button_unchecked)
             }
         }
     }

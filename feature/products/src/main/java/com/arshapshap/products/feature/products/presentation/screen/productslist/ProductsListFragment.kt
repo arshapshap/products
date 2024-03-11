@@ -36,24 +36,18 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             productsRecyclerView.adapter = ProductsAdapter(
                 onOpenDetails = viewModel::openDetails,
                 onCategoryClick = viewModel::setCategoryFilter,
-                onCategoryFilterClick = viewModel::removeCategoryFilter,
-                onLoadMore = viewModel::loadMore
+                onRemoveCategoryFilter = viewModel::removeCategoryFilter,
+                onLoadMore = viewModel::loadMoreProducts
             )
             categoriesRecyclerView.adapter = CategoriesAdapter(
-                onSelectCategory = {
-                    closeDrawer()
-                    viewModel.setCategoryFilter(it)
-                },
-                onUnselectCategory = {
-                    closeDrawer()
-                    viewModel.removeCategoryFilter()
-                }
+                onSelectCategory = viewModel::setCategoryFilter,
+                onUnselectCategory = viewModel::removeCategoryFilter
             )
             productsRecyclerView.setOnScrollChangeListener { _, _, _, _, _ ->
                 scrollUpImageButton.isGone = !productsRecyclerView.canScrollVertically(-1)
 
                 if (!productsRecyclerView.canScrollVertically(1) && viewModel.canLoadMore)
-                    viewModel.loadMore()
+                    viewModel.loadMoreProducts()
             }
             swipeRefreshLayout.setOnRefreshListener {
                 closeDrawer()
@@ -77,7 +71,9 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             getCategoriesAdapter().setSelectedCategory(it)
         }
         viewModel.mainLoading.observe(viewLifecycleOwner) {
-            binding.loadingProgressBar.isGone = !it
+            binding.mainLoadingProgressBar.isGone = !it
+        }
+        viewModel.categoriesLoading.observe(viewLifecycleOwner) {
             requireActivity().invalidateOptionsMenu()
         }
         viewModel.categoryFilter.observe(viewLifecycleOwner) {
@@ -99,39 +95,27 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         menu.findItem(R.id.add_filter_button).isVisible = shouldShowFilterButton()
     }
 
-    private fun shouldShowFilterButton() =
-        !viewModel.categories.value.isNullOrEmpty()
-
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.add_filter_button -> {
-                if (viewModel.mainLoading.value == true || viewModel.categories.value?.isEmpty() == true)
-                    return true
-                else if (binding.categoriesDrawerLayout.isDrawerOpen(Gravity.RIGHT))
+                if (binding.categoriesDrawerLayout.isDrawerOpen(Gravity.RIGHT))
                     closeDrawer()
                 else
                     openDrawer()
                 return true
             }
+
             else -> false
         }
-    }
-
-    private fun openDrawer() {
-        binding.categoriesDrawerLayout.openDrawer(Gravity.RIGHT)
-    }
-
-    private fun closeDrawer() {
-        binding.categoriesDrawerLayout.closeDrawer(Gravity.RIGHT)
     }
 
     private fun showError(error: ProductsListError) {
         val (drawable, headline, hint) = getErrorData(error)
 
-        if (shouldShowDialog(error))
+        if (shouldShowDialogWithError(error))
             showDialogWithError(drawable, headline, hint)
         else
-            with (binding.errorLinearLayout) {
+            with(binding.errorLinearLayout) {
                 root.isGone = false
                 errorImageView.setImageDrawable(drawable)
                 errorHeadlineTextView.text = headline
@@ -139,7 +123,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
             }
     }
 
-    private fun shouldShowDialog(error: ProductsListError): Boolean =
+    private fun shouldShowDialogWithError(error: ProductsListError): Boolean =
         error is NoConnectionError && error.showDialog
                 || error is ProductsListError.UnknownError && error.showDialog
 
@@ -193,6 +177,15 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
 
         return Triple(drawable, headline, hint)
     }
+
+    private fun shouldShowFilterButton() =
+        !viewModel.categories.value.isNullOrEmpty()
+
+    private fun openDrawer() =
+        binding.categoriesDrawerLayout.openDrawer(Gravity.RIGHT)
+
+    private fun closeDrawer() =
+        binding.categoriesDrawerLayout.closeDrawer(Gravity.RIGHT)
 
     private fun getProductsAdapter() =
         binding.productsRecyclerView.adapter as ProductsAdapter
