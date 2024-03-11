@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/default_margin"
+    android:theme="@style/Theme.Products"
+    android:background="@drawable/shape_small_rounded_rectangle">
+
+    <include
+        android:id="@+id/error_linear_layout"
+        layout="@layout/item_error_with_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ok_button"
+        style="@style/Products.Button.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/ok"/>
+
+</LinearLayout>

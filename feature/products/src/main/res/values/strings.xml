@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="products">Products</string>
+    <string name="details">Details</string>
+    <string name="price_in_dollars">%s $</string>
+    <string name="discount">-%s%%</string>
+    <string name="rating">%s Rating</string>
+    <string name="something_broke_on_the_server">Something broke on the server…</string>
+    <string name="don_t_worry_the_problem_will_be_solved_soon">Don\'t worry, the problem will be solved soon</string>
+    <string name="check_your_connection_and_try_again">Check your connection and try again</string>
+    <string name="no_contact">No contact!</string>
+    <string name="don_t_worry_new_products_will_be_available_soon">Don\'t worry, new products will be available soon</string>
+    <string name="carrying_goods">Сarrying goods…</string>
+    <string name="load_more">Load more</string>
+    <string name="ok">OK</string>
+    <string name="filter">Filter:</string>
+    <string name="stock">%s Stock</string>
+    <string name="something_weird">Something weird…</string>
+    <string name="the_product_was_not_found_an_error_may_have_occurred">The product was not found</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="add_a_filter">Add a filter</string>
+    <string name="categories">Categories:</string>
+</resources>

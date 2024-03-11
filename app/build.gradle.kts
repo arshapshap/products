@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.arshapshap.products"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.arshapshap.products"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -25,6 +25,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -34,14 +35,23 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:presentation"))
+    implementation(project(":core:network"))
+    implementation(project(":feature:products"))
 
-    implementation(libs.core.ktx)
     implementation(libs.appcompat)
-    implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.core.ktx)
+    implementation(libs.koin)
+    implementation(libs.material)
+    implementation(libs.bundles.navigation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:background="@drawable/shape_card"
+    android:padding="@dimen/default_margin"
+    android:theme="@style/Theme.Products">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/thumbnail_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/normal_corner_radius"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/thumbnail_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:importantForAccessibility="no"
+            android:scaleType="fitXY" />
+    </androidx.cardview.widget.CardView>
+
+    <com.arshapshap.products.core.designsystem.customview.TagView
+        android:id="@+id/category_tag"
+        style="@style/Products.TagView.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thumbnail_card_view"
+        tools:text="Smartphones" />
+
+    <com.arshapshap.products.core.designsystem.customview.TagView
+        android:id="@+id/rating_tag"
+        style="@style/Products.TagView.Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        app:layout_constraintStart_toEndOf="@id/category_tag"
+        app:layout_constraintTop_toTopOf="@id/category_tag"
+        tools:text="4.4 Rating" />
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textAppearance="@style/Products.TextAppearance.Headline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_tag"
+        tools:text="iPhone 9" />
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Products.TextAppearance.Body1"
+        android:textColor="@color/grey500"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view"
+        tools:text="An apple mobile which is nothing like apple" />
+
+    <TextView
+        android:id="@+id/price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:textAppearance="@style/Products.TextAppearance.Large"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/price_without_discount_text_view"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description_text_view"
+        tools:text="549 $" />
+
+    <TextView
+        android:id="@+id/price_without_discount_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Products.TextAppearance.Body1"
+        android:textColor="@color/grey500"
+        app:layout_constraintBaseline_toBaselineOf="@id/price_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/price_text_view"
+        tools:text="1 000 $" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/open_details_button"
+        style="@style/Products.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/details"
+        app:layout_constraintTop_toBottomOf="@+id/price_text_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>
