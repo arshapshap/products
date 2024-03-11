@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.FragmentProductDetailsBinding
@@ -79,6 +80,7 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
                 context = requireContext(),
                 adapter = getImageCarouselAdapter()
             ).loadImages(product.imagesUrl)
+            tabLayout.isGone = product.imagesUrl.size <= 1
 
             ratingTag.text = resources.getString(R.string.rating, product.rating.toString())
             categoryTag.text = product.category.name
