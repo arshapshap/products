@@ -8,13 +8,13 @@
 * Фильтрация по категориям товаров;
 * Отображение детальной информации о каждом товаре.
 
-### Скриншоты:
+### Скриншоты
 <image src='https://github.com/arshapshap/products/assets/48681339/5a3bf78f-5591-4f1b-82f4-a4d2cedc6d61' width=200 />
 <image src='https://github.com/arshapshap/products/assets/48681339/1896df49-961b-40cb-aeca-c5f9517618aa' width=200 />
 <image src='https://github.com/arshapshap/products/assets/48681339/d0278fcb-c0e9-43c9-b05b-0fbe7fe0552b' width=200 />
 <image src='https://github.com/arshapshap/products/assets/48681339/4384e6ad-8bbd-4c64-aab9-d85fe911cdeb' width=200 />
 
-### Скринкасты:
+### Скринкасты
 <details><summary>Выбор фильтра</summary>
 <br>
   <image src='https://github.com/arshapshap/products/assets/48681339/6ac18871-802a-4019-9afb-d5894dc61512' width=200 />
