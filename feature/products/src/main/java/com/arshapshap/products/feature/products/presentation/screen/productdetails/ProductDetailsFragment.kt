@@ -11,9 +11,9 @@ import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.FragmentProductDetailsBinding
 import com.arshapshap.products.feature.products.domain.model.Product
+import com.arshapshap.products.feature.products.presentation.screen.productdetails.contract.ProductDetailsEvent
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.imagecarousel.ImageCarouselAdapter
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.imagecarousel.ImageCarouselLoader
-import com.arshapshap.products.feature.products.presentation.screen.productdetails.contract.ProductDetailsEvent
 import com.arshapshap.utils.toStringWithSpaces
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -62,16 +62,16 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
     override fun subscribe() {
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.loadingProgressBar.isGone = !it
-            binding.contentLayout.isGone = it
+            binding.contentLayout.isGone = shouldHideContent()
         }
         viewModel.product.observe(viewLifecycleOwner) {
             if (it != null)
                 showContent(it)
-            binding.contentLayout.isGone = it == null
+            binding.contentLayout.isGone = shouldHideContent()
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            binding.errorLinearLayout.root.isGone = !shouldHideContent(it)
-            binding.contentLayout.isGone = shouldHideContent(it)
+            binding.errorLinearLayout.root.isGone = !shouldHideContent()
+            binding.contentLayout.isGone = shouldHideContent()
 
             if (it != null)
                 showError(it)
@@ -145,8 +145,10 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
         return Triple(drawable, headline, hint)
     }
 
-    private fun shouldHideContent(event: ProductDetailsEvent?) =
-        event != null && event !is ProductDetailsEvent.NoSuchFunctionality
+    private fun shouldHideContent() =
+        viewModel.error.value != null && viewModel.error.value !is ProductDetailsEvent.NoSuchFunctionality
+                || viewModel.loading.value == true
+                || viewModel.product.value == null
 
     private fun getImageCarouselAdapter() =
         binding.imagesViewPager2.adapter as ImageCarouselAdapter
