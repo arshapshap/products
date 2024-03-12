@@ -11,11 +11,14 @@ import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCate
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
 import com.arshapshap.products.feature.products.presentation.FeatureProductsRouter
 import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent
-import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.*
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.EmptyListError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.NoConnectionError
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.UnknownError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
 
 class ProductsListViewModel internal constructor(
     private val getProductsUseCase: GetProductsUseCase,
@@ -119,6 +122,7 @@ class ProductsListViewModel internal constructor(
                 when (e) {
                     is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
                     is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
+                    is SSLHandshakeException -> _error.postValue(NoConnectionError(showDialog = false))
                     else -> _error.postValue(UnknownError(showDialog = false))
                 }
             } finally {
@@ -135,10 +139,13 @@ class ProductsListViewModel internal constructor(
                 val categories = getCategoriesUseCase()
                 _categories.postValue(categories)
             } catch (e: Exception) {
+                _mainLoading.postValue(false)
+                val shouldShowDialog = !products.value.isNullOrEmpty()
                 when (e) {
-                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
-                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
-                    else -> _error.postValue(UnknownError(showDialog = false))
+                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = shouldShowDialog))
+                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = shouldShowDialog))
+                    is SSLHandshakeException -> _error.postValue(NoConnectionError(showDialog = shouldShowDialog))
+                    else -> _error.postValue(UnknownError(showDialog = shouldShowDialog))
                 }
             } finally {
                 _categoriesLoading.postValue(false)
