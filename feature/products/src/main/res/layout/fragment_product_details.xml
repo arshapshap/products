@@ -120,22 +120,15 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Products.TextAppearance.Body1"
                 android:textColor="@color/grey500"
-                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintBottom_toTopOf="@+id/price_text_view"
                 app:layout_constraintTop_toBottomOf="@id/title_with_brand_flow"
                 tools:text="An apple mobile which is nothing like apple" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.8" />
 
             <TextView
                 android:id="@+id/price_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
                 android:textAppearance="@style/Products.TextAppearance.Large"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@id/add_to_cart_button"
@@ -143,7 +136,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 app:layout_constraintVertical_bias="1"
                 tools:text="549 $" />
 
@@ -166,7 +159,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:text="@string/add_to_cart"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/price_text_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
