@@ -9,6 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.isGone
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arshapshap.products.core.designsystem.extensions.showDialogWithDrawable
 import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
@@ -51,7 +53,7 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
                 swipeRefreshLayout.isRefreshing = false
             }
             scrollUpImageButton.setOnClickListener {
-                productsRecyclerView.smoothScrollToPosition(0)
+                binding.productsRecyclerView.balancedScrollToTop()
             }
         }
     }
@@ -145,6 +147,14 @@ class ProductsListFragment : BaseFragment<FragmentProductsListBinding, ProductsL
         val hint = getString(hintStringId)
 
         return Triple(drawable, headline, hint)
+    }
+
+    private fun RecyclerView.balancedScrollToTop() {
+        val borderPosition = 5
+        val currentPosition = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        if (currentPosition > borderPosition)
+            scrollToPosition(borderPosition)
+        smoothScrollToPosition(0)
     }
 
     private fun shouldShowFilterButton() =
