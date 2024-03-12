@@ -3,6 +3,7 @@ package com.arshapshap.products.core.designsystem.customview
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -66,6 +67,7 @@ class TagView @JvmOverloads constructor(
     }
 
     private fun setDefaultValues() {
+        gravity = Gravity.CENTER_VERTICAL
         setBackgroundResource(R.drawable.shape_small_rounded_rectangle)
 
         val paddingHorizontal =
