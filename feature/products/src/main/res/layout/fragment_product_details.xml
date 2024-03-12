@@ -105,6 +105,8 @@
                 app:drawableStart="@drawable/ic_package"
                 app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 tools:text="1000 Stock" />
 
@@ -124,7 +126,7 @@
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintBottom_toTopOf="@id/add_to_cart_button"
                 app:layout_constraintEnd_toStartOf="@id/price_without_discount_text_view"
-                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guideline"
