@@ -22,10 +22,12 @@ internal class CategoriesAdapter(
     }
 
     fun setSelectedCategory(category: Category?) {
-        list.filter { it == selectedCategory || it == category }.forEachIndexed { index, _ ->
-            notifyItemChanged(index)
-        }
+        val oldSelectedCategory = selectedCategory
         selectedCategory = category
+        list.forEachIndexed { index, it ->
+            if (it == oldSelectedCategory || it == category)
+                notifyItemChanged(index)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

@@ -8,12 +8,12 @@
     android:orientation="vertical"
     android:theme="@style/Theme.Products">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/error_image_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:tint="?attr/colorPrimary"
-        tools:src="@drawable/ic_mistery" />
+        app:shapeAppearanceOverlay="@style/Products.ShapeableImage.NormalRounded"
+        tools:src="@drawable/ic_star" />
 
     <TextView
         android:id="@+id/error_headline_text_view"
@@ -23,7 +23,7 @@
         android:alpha="0.9"
         android:gravity="center"
         android:textColor="?attr/colorPrimary"
-        tools:text="@string/something_weird" />
+        tools:text="Error headline" />
 
     <TextView
         android:id="@+id/error_hint_text_view"
@@ -33,5 +33,5 @@
         android:alpha="0.5"
         android:gravity="center"
         android:textColor="?attr/colorPrimary"
-        tools:text="@string/the_product_was_not_found_an_error_may_have_occurred" />
+        tools:text="Error hint" />
 </LinearLayout>

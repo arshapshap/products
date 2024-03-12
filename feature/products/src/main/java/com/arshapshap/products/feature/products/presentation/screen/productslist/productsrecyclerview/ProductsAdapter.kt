@@ -22,7 +22,7 @@ internal class ProductsAdapter(
     private var list: MutableList<RecyclerViewItem> = mutableListOf(),
     private val onOpenDetails: (Int) -> Unit,
     private val onCategoryClick: (Category) -> Unit,
-    private val onCategoryFilterClick: () -> Unit,
+    private val onRemoveCategoryFilter: () -> Unit,
     private val onLoadMore: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -77,7 +77,7 @@ internal class ProductsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         VIEW_TYPE_PRODUCT -> ProductViewHolder(getItemProductBinding(parent), onOpenDetails, onCategoryClick)
         VIEW_TYPE_LOAD_MORE_BUTTON -> LoadMoreButtonViewHolder(getLoadMoreButtonBinding(parent), onLoadMore)
-        VIEW_TYPE_FILTER_INFO -> CategoryFilterViewHolder(getFilterInfoBinding(parent), onCategoryFilterClick)
+        VIEW_TYPE_FILTER_INFO -> CategoryFilterViewHolder(getFilterInfoBinding(parent), onRemoveCategoryFilter)
         else -> throw IllegalArgumentException("Unsupported view type")
     }
 

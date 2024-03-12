@@ -3,7 +3,6 @@ package com.arshapshap.products.feature.products.presentation.screen.productslis
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.ItemCategoryBinding
 import com.arshapshap.products.feature.products.domain.model.Category
 
@@ -21,10 +20,10 @@ internal class CategoryViewHolder(
             }
 
             if (isSelected) {
-                setDrawableStart(R.drawable.ic_check_box)
+                setDrawableStart(com.arshapshap.products.core.designsystem.R.drawable.ic_radio_button_checked)
             }
             else {
-                setDrawableStart(R.drawable.ic_check_box_blank)
+                setDrawableStart(com.arshapshap.products.core.designsystem.R.drawable.ic_radio_button_unchecked)
             }
         }
     }

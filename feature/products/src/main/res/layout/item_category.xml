@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/extra_small_margin"
+    android:background="?attr/selectableItemBackground"
     android:backgroundTint="@color/white"
-    android:paddingVertical="@dimen/tag_view_padding_vertical"
+    android:paddingVertical="@dimen/small_margin"
+    android:paddingHorizontal="@dimen/default_margin"
     android:theme="@style/Theme.Products">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/tag_view_margin_between"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_check_box_blank" />
+        android:src="@drawable/ic_radio_button_unchecked" />
 
     <TextView
         android:id="@+id/category_name_text_view"

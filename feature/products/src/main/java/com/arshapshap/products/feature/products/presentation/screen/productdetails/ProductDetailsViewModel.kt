@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.arshapshap.products.core.presentation.BaseViewModel
 import com.arshapshap.products.feature.products.domain.model.Product
 import com.arshapshap.products.feature.products.domain.usecase.GetProductByIdUseCase
-import com.arshapshap.products.feature.products.presentation.screen.productdetails.model.ProductDetailsError
+import com.arshapshap.products.feature.products.presentation.screen.productdetails.contract.ProductDetailsEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
@@ -23,8 +23,8 @@ class ProductDetailsViewModel internal constructor(
     private val _loading = MutableLiveData(true)
     internal val loading: LiveData<Boolean> = _loading
 
-    private val _error = MutableLiveData<ProductDetailsError?>()
-    internal val error: LiveData<ProductDetailsError?> = _error
+    private val _error = MutableLiveData<ProductDetailsEvent?>()
+    internal val error: LiveData<ProductDetailsEvent?> = _error
 
     init {
         loadData()
@@ -39,16 +39,20 @@ class ProductDetailsViewModel internal constructor(
                 _product.postValue(product)
 
                 if (product == null)
-                    _error.postValue(ProductDetailsError.ProductNotFoundError)
+                    _error.postValue(ProductDetailsEvent.ProductNotFoundError)
             } catch (e: Exception) {
                 when (e) {
-                    is UnknownHostException -> _error.postValue(ProductDetailsError.NoConnectionError)
-                    is SocketTimeoutException -> _error.postValue(ProductDetailsError.NoConnectionError)
-                    else -> _error.postValue(ProductDetailsError.UnknownError)
+                    is UnknownHostException -> _error.postValue(ProductDetailsEvent.NoConnectionError)
+                    is SocketTimeoutException -> _error.postValue(ProductDetailsEvent.NoConnectionError)
+                    else -> _error.postValue(ProductDetailsEvent.UnknownError)
                 }
             } finally {
                 _loading.postValue(false)
             }
         }
+    }
+
+    internal fun addToCart() {
+        _error.postValue(ProductDetailsEvent.NoSuchFunctionality)
     }
 }

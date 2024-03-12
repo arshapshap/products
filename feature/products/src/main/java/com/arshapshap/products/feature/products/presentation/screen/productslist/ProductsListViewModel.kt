@@ -10,8 +10,8 @@ import com.arshapshap.products.feature.products.domain.usecase.GetCategoriesUseC
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
 import com.arshapshap.products.feature.products.presentation.FeatureProductsRouter
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.*
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
@@ -33,6 +33,9 @@ class ProductsListViewModel internal constructor(
     private val _mainLoading = MutableLiveData(true)
     internal val mainLoading: LiveData<Boolean> = _mainLoading
 
+    private val _categoriesLoading = MutableLiveData(true)
+    internal val categoriesLoading: LiveData<Boolean> = _categoriesLoading
+
     private val _loadingMoreItems = MutableLiveData(false)
     internal val loadingMoreItems: LiveData<Boolean> = _loadingMoreItems
 
@@ -42,47 +45,18 @@ class ProductsListViewModel internal constructor(
     private val _categoryFilter = MutableLiveData<Category?>()
     internal val categoryFilter: LiveData<Category?> = _categoryFilter
 
-    private val _error = MutableLiveData<ProductsListError?>()
-    internal val error: LiveData<ProductsListError?> = _error
+    private val _error = MutableLiveData<ProductsListEvent?>()
+    internal val error: LiveData<ProductsListEvent?> = _error
+
+    private var _currentPage = 0
 
     init {
         loadData()
     }
 
-    private var _currentPage = 0
-
     internal fun loadData() {
-        _products.postValue(listOf())
-        _currentPage = 0
-        _error.postValue(null)
-        _mainLoading.postValue(true)
-        _canLoadMore = false
-        _loadingMoreItems.postValue(false)
-
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val productsList = categoryFilter.value?.let {
-                    getProductsByCategoryUseCase(it)
-                } ?: getProductsUseCase()
-                val categories = getCategoriesUseCase()
-
-                _products.postValue(productsList.list)
-                _categories.postValue(categories)
-
-                if (productsList.list.isEmpty())
-                    _error.postValue(EmptyListError)
-                _canLoadMore = productsList.canLoadMore
-            } catch (e: Exception) {
-                when (e) {
-                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
-                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
-                    else -> _error.postValue(UnknownError(showDialog = false))
-                }
-            } finally {
-                _loadingMoreItems.postValue(false)
-                _mainLoading.postValue(false)
-            }
-        }
+        loadProducts()
+        loadCategories()
     }
 
     internal fun openDetails(productId: Int) {
@@ -92,16 +66,16 @@ class ProductsListViewModel internal constructor(
     internal fun setCategoryFilter(category: Category) {
         if (categoryFilter.value == category) return
         _categoryFilter.value = category
-        loadData()
+        loadProducts()
     }
 
     internal fun removeCategoryFilter() {
         if (categoryFilter.value == null) return
         _categoryFilter.value = null
-        loadData()
+        loadProducts()
     }
 
-    internal fun loadMore() {
+    internal fun loadMoreProducts() {
         _loadingMoreItems.postValue(true)
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -119,6 +93,55 @@ class ProductsListViewModel internal constructor(
                 _error.postValue(UnknownError(showDialog = true))
             } finally {
                 _loadingMoreItems.postValue(false)
+            }
+        }
+    }
+
+    private fun loadProducts() {
+        _products.postValue(listOf())
+        _currentPage = 0
+        _error.postValue(null)
+        _mainLoading.postValue(true)
+        _canLoadMore = false
+        _loadingMoreItems.postValue(false)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val productsList = categoryFilter.value?.let {
+                    getProductsByCategoryUseCase(it)
+                } ?: getProductsUseCase()
+
+                _products.postValue(productsList.list)
+                if (productsList.list.isEmpty())
+                    _error.postValue(EmptyListError)
+                _canLoadMore = productsList.canLoadMore
+            } catch (e: Exception) {
+                when (e) {
+                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
+                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
+                    else -> _error.postValue(UnknownError(showDialog = false))
+                }
+            } finally {
+                _loadingMoreItems.postValue(false)
+                _mainLoading.postValue(false)
+            }
+        }
+    }
+
+    private fun loadCategories() {
+        _categoriesLoading.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val categories = getCategoriesUseCase()
+                _categories.postValue(categories)
+            } catch (e: Exception) {
+                when (e) {
+                    is UnknownHostException -> _error.postValue(NoConnectionError(showDialog = false))
+                    is SocketTimeoutException -> _error.postValue(NoConnectionError(showDialog = false))
+                    else -> _error.postValue(UnknownError(showDialog = false))
+                }
+            } finally {
+                _categoriesLoading.postValue(false)
             }
         }
     }

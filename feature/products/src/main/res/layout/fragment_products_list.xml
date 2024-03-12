@@ -26,7 +26,7 @@
                 tools:listitem="@layout/item_product" />
 
             <ProgressBar
-                android:id="@+id/loading_progress_bar"
+                android:id="@+id/main_loading_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -34,7 +34,7 @@
 
             <include
                 android:id="@+id/error_linear_layout"
-                layout="@layout/item_error_with_description"
+                layout="@layout/layout_image_with_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -62,13 +62,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@drawable/shape_normal_half_rounded_rectangle"
-        android:orientation="vertical"
-        android:padding="@dimen/default_margin">
+        android:orientation="vertical">
 
         <TextView
             style="@style/Products.TextAppearance.Body1.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/extra_small_margin"
             android:text="@string/categories" />
 

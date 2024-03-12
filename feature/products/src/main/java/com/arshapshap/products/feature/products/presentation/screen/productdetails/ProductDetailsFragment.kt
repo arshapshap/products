@@ -6,13 +6,14 @@ import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
+import com.arshapshap.products.core.designsystem.extensions.showDialogWithDrawable
 import com.arshapshap.products.core.presentation.BaseFragment
 import com.arshapshap.products.feature.products.R
 import com.arshapshap.products.feature.products.databinding.FragmentProductDetailsBinding
 import com.arshapshap.products.feature.products.domain.model.Product
+import com.arshapshap.products.feature.products.presentation.screen.productdetails.contract.ProductDetailsEvent
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.imagecarousel.ImageCarouselAdapter
 import com.arshapshap.products.feature.products.presentation.screen.productdetails.imagecarousel.ImageCarouselLoader
-import com.arshapshap.products.feature.products.presentation.screen.productdetails.model.ProductDetailsError
 import com.arshapshap.utils.toStringWithSpaces
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,22 +52,26 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
                 viewModel.loadData()
                 swipeRefreshLayout.isRefreshing = false
             }
+
+            addToCartButton.setOnClickListener {
+                viewModel.addToCart()
+            }
         }
     }
 
     override fun subscribe() {
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.loadingProgressBar.isGone = !it
-            binding.contentLayout.isGone = it
+            binding.contentLayout.isGone = shouldHideContent()
         }
         viewModel.product.observe(viewLifecycleOwner) {
             if (it != null)
                 showContent(it)
-            binding.contentLayout.isGone = it == null
+            binding.contentLayout.isGone = shouldHideContent()
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            binding.errorLinearLayout.root.isGone = it == null
-            binding.contentLayout.isGone = it != null
+            binding.errorLinearLayout.root.isGone = !shouldHideContent()
+            binding.contentLayout.isGone = shouldHideContent()
 
             if (it != null)
                 showError(it)
@@ -99,32 +104,38 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
         }
     }
 
-    private fun showError(error: ProductDetailsError) {
+    private fun showError(error: ProductDetailsEvent) {
         val (drawable, headline, hint) = getErrorData(error)
 
-        with (binding.errorLinearLayout) {
-            root.isGone = false
-            errorImageView.setImageDrawable(drawable)
-            errorHeadlineTextView.text = headline
-            errorHintTextView.text = hint
-        }
+        if (error is ProductDetailsEvent.NoSuchFunctionality)
+            requireContext().showDialogWithDrawable(drawable, headline, hint)
+        else
+            with (binding.errorLinearLayout) {
+                root.isGone = false
+                errorImageView.setImageDrawable(drawable)
+                errorHeadlineTextView.text = headline
+                errorHintTextView.text = hint
+            }
     }
 
-    private fun getErrorData(error: ProductDetailsError): Triple<Drawable?, String, String> {
+    private fun getErrorData(error: ProductDetailsEvent): Triple<Drawable?, String, String> {
         val drawableId = when (error) {
-            ProductDetailsError.NoConnectionError -> R.drawable.ic_satellite
-            ProductDetailsError.UnknownError -> R.drawable.ic_bug
-            ProductDetailsError.ProductNotFoundError -> R.drawable.ic_mistery
+            ProductDetailsEvent.NoConnectionError -> R.drawable.ic_satellite
+            ProductDetailsEvent.UnknownError -> R.drawable.ic_bug
+            ProductDetailsEvent.ProductNotFoundError -> R.drawable.ic_mistery
+            ProductDetailsEvent.NoSuchFunctionality -> R.drawable.ic_always_has_been
         }
         val headlineStringId = when (error) {
-            ProductDetailsError.NoConnectionError -> R.string.no_contact
-            ProductDetailsError.UnknownError -> R.string.something_broke_on_the_server
-            ProductDetailsError.ProductNotFoundError -> R.string.something_weird
+            ProductDetailsEvent.NoConnectionError -> R.string.no_contact
+            ProductDetailsEvent.UnknownError -> R.string.something_broke_on_the_server
+            ProductDetailsEvent.ProductNotFoundError -> R.string.something_weird
+            ProductDetailsEvent.NoSuchFunctionality -> R.string.it_s_all_staged
         }
         val hintStringId = when (error) {
-            ProductDetailsError.NoConnectionError -> R.string.check_your_connection_and_try_again
-            ProductDetailsError.UnknownError -> R.string.don_t_worry_the_problem_will_be_solved_soon
-            ProductDetailsError.ProductNotFoundError -> R.string.the_product_was_not_found_an_error_may_have_occurred
+            ProductDetailsEvent.NoConnectionError -> R.string.check_your_connection_and_try_again
+            ProductDetailsEvent.UnknownError -> R.string.don_t_worry_the_problem_will_be_solved_soon
+            ProductDetailsEvent.ProductNotFoundError -> R.string.the_product_was_not_found_an_error_may_have_occurred
+            ProductDetailsEvent.NoSuchFunctionality -> R.string.it_s_just_test_task
         }
 
         val drawable = ResourcesCompat.getDrawable(resources, drawableId, requireContext().theme)
@@ -133,6 +144,11 @@ class ProductDetailsFragment : BaseFragment<FragmentProductDetailsBinding, Produ
 
         return Triple(drawable, headline, hint)
     }
+
+    private fun shouldHideContent() =
+        viewModel.error.value != null && viewModel.error.value !is ProductDetailsEvent.NoSuchFunctionality
+                || viewModel.loading.value == true
+                || viewModel.product.value == null
 
     private fun getImageCarouselAdapter() =
         binding.imagesViewPager2.adapter as ImageCarouselAdapter

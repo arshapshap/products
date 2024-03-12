@@ -103,4 +103,13 @@
         <item name="boxBackgroundColor">@color/grey200</item>
         <item name="hintTextAppearance">@style/Products.TextAppearance.Body3</item>
     </style>
+
+    <!-- Rounded ShapeableImage -->
+    <style name="Products.ShapeableImage" />
+    <style name="Products.ShapeableImage.SmallRounded">
+        <item name="cornerSize">@dimen/small_corner_radius</item>
+    </style>
+    <style name="Products.ShapeableImage.NormalRounded">
+        <item name="cornerSize">@dimen/normal_corner_radius</item>
+    </style>
 </resources>
