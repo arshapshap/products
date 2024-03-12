@@ -1,6 +1,6 @@
 # <image src='https://github.com/arshapshap/products/assets/48681339/5a15f5ff-a084-4363-bc0b-f783c18ccdb3' width=50 /> Products
 
-  Мобильное приложение с товарами.
+  Мобильное приложение со списком товаров.
 
 ### Функционал
 
