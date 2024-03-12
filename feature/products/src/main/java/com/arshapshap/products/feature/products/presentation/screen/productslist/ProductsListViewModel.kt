@@ -10,8 +10,8 @@ import com.arshapshap.products.feature.products.domain.usecase.GetCategoriesUseC
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsByCategoryUseCase
 import com.arshapshap.products.feature.products.domain.usecase.GetProductsUseCase
 import com.arshapshap.products.feature.products.presentation.FeatureProductsRouter
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError
-import com.arshapshap.products.feature.products.presentation.screen.productslist.model.ProductsListError.*
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent
+import com.arshapshap.products.feature.products.presentation.screen.productslist.contract.ProductsListEvent.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.SocketTimeoutException
@@ -45,8 +45,8 @@ class ProductsListViewModel internal constructor(
     private val _categoryFilter = MutableLiveData<Category?>()
     internal val categoryFilter: LiveData<Category?> = _categoryFilter
 
-    private val _error = MutableLiveData<ProductsListError?>()
-    internal val error: LiveData<ProductsListError?> = _error
+    private val _error = MutableLiveData<ProductsListEvent?>()
+    internal val error: LiveData<ProductsListEvent?> = _error
 
     private var _currentPage = 0
 

@@ -34,7 +34,7 @@
 
             <include
                 android:id="@+id/error_linear_layout"
-                layout="@layout/item_error_with_description"
+                layout="@layout/layout_image_with_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
